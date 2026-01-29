@@ -1,4 +1,12 @@
-import { Client, Account, Databases, Storage, ID, Query, type Models } from "node-appwrite";
+import {
+  Client,
+  Account,
+  Databases,
+  Storage,
+  ID,
+  Query,
+  type Models,
+} from "node-appwrite";
 
 // ============================================================================
 // ENVIRONMENT VALIDATION
@@ -22,7 +30,7 @@ const requiredEnvVars = {
 for (const [key, value] of Object.entries(requiredEnvVars)) {
   if (!value) {
     console.warn(
-      `Missing environment variable for ${key}. Please check your .env.local file.`
+      `Missing environment variable for ${key}. Please check your .env.local file.`,
     );
   }
 }
@@ -67,7 +75,7 @@ export function getServerClient(): Client {
     const c = new Client()
       .setEndpoint(appwriteConfig.endpoint)
       .setProject(appwriteConfig.projectId);
-    
+
     if (process.env.APPWRITE_API_KEY) {
       c.setKey(process.env.APPWRITE_API_KEY);
     }

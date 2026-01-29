@@ -13,7 +13,9 @@ export const metadata: Metadata = {
   title: "Edit Question | AntiGravity Question Bank",
 };
 
-export default async function EditQuestionPage({ params }: EditQuestionPageProps) {
+export default async function EditQuestionPage({
+  params,
+}: EditQuestionPageProps) {
   await requireAdmin();
 
   const { id } = await params;

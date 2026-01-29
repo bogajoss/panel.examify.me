@@ -7,7 +7,13 @@
 
 require("dotenv").config({ path: ".env.local" });
 
-const { Client, Databases, Storage, Permission, Role } = require("node-appwrite");
+const {
+  Client,
+  Databases,
+  Storage,
+  Permission,
+  Role,
+} = require("node-appwrite");
 
 const client = new Client()
   .setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT)
@@ -80,7 +86,7 @@ async function createUserProfilesCollection() {
         Permission.create(Role.any()),
         Permission.update(Role.any()),
         Permission.delete(Role.any()),
-      ]
+      ],
     );
     console.log("✅ Collection created");
   } catch (error) {
@@ -93,7 +99,7 @@ async function createUserProfilesCollection() {
     await databases.deleteAttribute(
       DATABASE_ID,
       COLLECTIONS.USER_PROFILES,
-      "passwordHash"
+      "passwordHash",
     );
     console.log("  ✓ Dropped attribute: passwordHash");
   } catch (error) {
@@ -142,7 +148,7 @@ async function createUserProfilesCollection() {
           COLLECTIONS.USER_PROFILES,
           attr.name,
           attr.elements,
-          attr.required
+          attr.required,
         );
       } else {
         await databases.createStringAttribute(
@@ -150,7 +156,7 @@ async function createUserProfilesCollection() {
           COLLECTIONS.USER_PROFILES,
           attr.name,
           attr.size,
-          attr.required
+          attr.required,
         );
       }
       console.log(`  ✓ Added attribute: ${attr.name}`);
@@ -170,7 +176,7 @@ async function createUserProfilesCollection() {
       COLLECTIONS.USER_PROFILES,
       "userId_idx",
       "key",
-      ["userId"]
+      ["userId"],
     );
     console.log("  ✓ Created index on userId");
   } catch (error) {
@@ -186,7 +192,7 @@ async function createFilesCollection() {
     await databases.createCollection(
       DATABASE_ID,
       COLLECTIONS.FILES,
-      "Question Files"
+      "Question Files",
     );
     console.log("✅ Collection created");
   } catch (error) {
@@ -211,7 +217,7 @@ async function createFilesCollection() {
           DATABASE_ID,
           COLLECTIONS.FILES,
           attr.name,
-          attr.required
+          attr.required,
         );
       } else if (attr.type === "integer") {
         await databases.createIntegerAttribute(
@@ -219,7 +225,7 @@ async function createFilesCollection() {
           COLLECTIONS.FILES,
           attr.name,
           attr.required,
-          attr.default
+          attr.default,
         );
       } else {
         await databases.createStringAttribute(
@@ -227,7 +233,7 @@ async function createFilesCollection() {
           COLLECTIONS.FILES,
           attr.name,
           attr.size,
-          attr.required
+          attr.required,
         );
       }
       console.log(`  ✓ Added attribute: ${attr.name}`);
@@ -254,7 +260,7 @@ async function createFilesCollection() {
         COLLECTIONS.FILES,
         index.name,
         "key",
-        index.attributes
+        index.attributes,
       );
       console.log(`  ✓ Created index: ${index.name}`);
     } catch (error) {
@@ -271,7 +277,7 @@ async function createQuestionsCollection() {
     await databases.createCollection(
       DATABASE_ID,
       COLLECTIONS.QUESTIONS,
-      "Questions"
+      "Questions",
     );
     console.log("✅ Collection created");
   } catch (error) {
@@ -293,7 +299,13 @@ async function createQuestionsCollection() {
     { name: "questionImageId", type: "string", size: 36, required: false },
     { name: "explanationImageId", type: "string", size: 36, required: false },
     { name: "type", type: "integer", required: false, default: 0 },
-    { name: "section", type: "string", size: 10, required: false, default: "0" },
+    {
+      name: "section",
+      type: "string",
+      size: 10,
+      required: false,
+      default: "0",
+    },
     { name: "orderIndex", type: "integer", required: true, default: 0 },
   ];
 
@@ -305,7 +317,7 @@ async function createQuestionsCollection() {
           COLLECTIONS.QUESTIONS,
           attr.name,
           attr.required,
-          attr.default
+          attr.default,
         );
       } else {
         await databases.createStringAttribute(
@@ -314,7 +326,7 @@ async function createQuestionsCollection() {
           attr.name,
           attr.size,
           attr.required,
-          attr.default
+          attr.default,
         );
       }
       console.log(`  ✓ Added attribute: ${attr.name}`);
@@ -342,7 +354,7 @@ async function createQuestionsCollection() {
         COLLECTIONS.QUESTIONS,
         index.name,
         "key",
-        index.attributes
+        index.attributes,
       );
       console.log(`  ✓ Created index: ${index.name}`);
     } catch (error) {
@@ -358,16 +370,12 @@ async function createStorageBuckets() {
   // Question Images Bucket
   console.log("📸 Creating Question Images bucket...");
   try {
-    await storage.createBucket(
-      BUCKETS.QUESTION_IMAGES,
-      "Question Images",
-      [
-        Permission.read(Role.any()),
-        Permission.create(Role.users()),
-        Permission.update(Role.users()),
-        Permission.delete(Role.users()),
-      ]
-    );
+    await storage.createBucket(BUCKETS.QUESTION_IMAGES, "Question Images", [
+      Permission.read(Role.any()),
+      Permission.create(Role.users()),
+      Permission.update(Role.users()),
+      Permission.delete(Role.users()),
+    ]);
     console.log("✅ Question Images bucket created");
   } catch (error) {
     if (error.code === 409) {
@@ -380,16 +388,12 @@ async function createStorageBuckets() {
   // Source Files Bucket
   console.log("📄 Creating Source Files bucket...");
   try {
-    await storage.createBucket(
-      BUCKETS.SOURCE_FILES,
-      "Source Files",
-      [
-        Permission.read(Role.users()),
-        Permission.create(Role.users()),
-        Permission.update(Role.users()),
-        Permission.delete(Role.users()),
-      ]
-    );
+    await storage.createBucket(BUCKETS.SOURCE_FILES, "Source Files", [
+      Permission.read(Role.users()),
+      Permission.create(Role.users()),
+      Permission.update(Role.users()),
+      Permission.delete(Role.users()),
+    ]);
     console.log("✅ Source Files bucket created\n");
   } catch (error) {
     if (error.code === 409) {

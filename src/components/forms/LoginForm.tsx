@@ -8,22 +8,22 @@ import Link from "next/link";
 import { loginSchema, type LoginFormData } from "@/types";
 import { loginUser } from "@/lib/auth";
 import { useAuth } from "@/context/AuthContext";
-import { 
-  Button, 
-  Input, 
-  Alert, 
+import {
+  Button,
+  Input,
+  Alert,
   Form,
   FormControl,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-  Card, 
-  CardHeader, 
-  CardTitle, 
-  CardDescription, 
-  CardContent, 
-  CardFooter 
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+  CardFooter,
 } from "@/components/ui";
 import { Shield, ArrowRight, User, Lock, AlertCircle } from "lucide-react";
 
@@ -64,10 +64,17 @@ export function LoginForm() {
       </div>
 
       {error && (
-        <Alert variant="destructive" className="animate-in fade-in slide-in-from-top-1 duration-200">
+        <Alert
+          variant="destructive"
+          className="animate-in fade-in slide-in-from-top-1 duration-200"
+        >
           <AlertCircle className="h-4 w-4" />
-          <CardTitle className="text-sm font-semibold ml-2">Authentication Error</CardTitle>
-          <CardDescription className="text-xs text-destructive-foreground/80 mt-1">{error}</CardDescription>
+          <CardTitle className="text-sm font-semibold ml-2">
+            Authentication Error
+          </CardTitle>
+          <CardDescription className="text-xs text-destructive-foreground/80 mt-1">
+            {error}
+          </CardDescription>
         </Alert>
       )}
 
@@ -78,14 +85,16 @@ export function LoginForm() {
             name="username"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Username</FormLabel>
+                <FormLabel className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                  Username
+                </FormLabel>
                 <FormControl>
                   <div className="relative">
                     <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                    <Input 
-                      placeholder="Enter your username" 
-                      className="pl-10 h-12 bg-muted/30 border-none focus-visible:ring-1" 
-                      {...field} 
+                    <Input
+                      placeholder="Enter your username"
+                      className="pl-10 h-12 bg-muted/30 border-none focus-visible:ring-1"
+                      {...field}
                     />
                   </div>
                 </FormControl>
@@ -100,19 +109,24 @@ export function LoginForm() {
             render={({ field }) => (
               <FormItem>
                 <div className="flex items-center justify-between">
-                  <FormLabel className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Password</FormLabel>
-                  <Link href="#" className="text-xs font-medium text-primary hover:underline">
+                  <FormLabel className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                    Password
+                  </FormLabel>
+                  <Link
+                    href="#"
+                    className="text-xs font-medium text-primary hover:underline"
+                  >
                     Forgot password?
                   </Link>
                 </div>
                 <FormControl>
                   <div className="relative">
                     <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                    <Input 
-                      type="password" 
-                      placeholder="••••••••" 
-                      className="pl-10 h-12 bg-muted/30 border-none focus-visible:ring-1" 
-                      {...field} 
+                    <Input
+                      type="password"
+                      placeholder="••••••••"
+                      className="pl-10 h-12 bg-muted/30 border-none focus-visible:ring-1"
+                      {...field}
                     />
                   </div>
                 </FormControl>
@@ -144,7 +158,10 @@ export function LoginForm() {
       <div className="text-center">
         <p className="text-sm text-muted-foreground">
           Don&apos;t have an account?{" "}
-          <Link href="/register" className="text-primary font-bold hover:underline">
+          <Link
+            href="/register"
+            className="text-primary font-bold hover:underline"
+          >
             Create an account
           </Link>
         </p>

@@ -4,15 +4,25 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useState, useRef } from "react";
-import { questionSchema, type QuestionFormData, SECTION_LABELS, type SectionTypeValue } from "@/types";
-import { createQuestion, updateQuestion, uploadQuestionImage, deleteQuestionImage } from "@/lib/actions";
+import {
+  questionSchema,
+  type QuestionFormData,
+  SECTION_LABELS,
+  type SectionTypeValue,
+} from "@/types";
+import {
+  createQuestion,
+  updateQuestion,
+  uploadQuestionImage,
+  deleteQuestionImage,
+} from "@/lib/actions";
 import { getImageUrl } from "@/lib/utils";
-import { 
-  Button, 
-  Input, 
-  Textarea, 
-  Label, 
-  Alert, 
+import {
+  Button,
+  Input,
+  Textarea,
+  Label,
+  Alert,
   Select,
   SelectContent,
   SelectItem,
@@ -25,15 +35,25 @@ import {
   FormLabel,
   FormMessage,
   FormDescription,
-  Card, 
-  CardHeader, 
-  CardTitle, 
+  Card,
+  CardHeader,
+  CardTitle,
   CardDescription,
-  CardContent, 
+  CardContent,
   CardFooter,
-  Separator
+  Separator,
 } from "@/components/ui";
-import { Save, Image as ImageIcon, X, Trash2, CheckCircle2, AlertCircle, HelpCircle, FileText, LayoutGrid } from "lucide-react";
+import {
+  Save,
+  Image as ImageIcon,
+  X,
+  Trash2,
+  CheckCircle2,
+  AlertCircle,
+  HelpCircle,
+  FileText,
+  LayoutGrid,
+} from "lucide-react";
 
 interface QuestionFormProps {
   fileId: string;
@@ -55,16 +75,26 @@ interface QuestionFormProps {
   onSuccess?: () => void;
 }
 
-export function QuestionForm({ fileId, question, onSuccess }: QuestionFormProps) {
+export function QuestionForm({
+  fileId,
+  question,
+  onSuccess,
+}: QuestionFormProps) {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Image states
-  const [questionImageId, setQuestionImageId] = useState<string | undefined>(question?.questionImageId);
-  const [explanationImageId, setExplanationImageId] = useState<string | undefined>(question?.explanationImageId);
-  const [isUploadingQuestionImage, setIsUploadingQuestionImage] = useState(false);
-  const [isUploadingExplanationImage, setIsUploadingExplanationImage] = useState(false);
+  const [questionImageId, setQuestionImageId] = useState<string | undefined>(
+    question?.questionImageId,
+  );
+  const [explanationImageId, setExplanationImageId] = useState<
+    string | undefined
+  >(question?.explanationImageId);
+  const [isUploadingQuestionImage, setIsUploadingQuestionImage] =
+    useState(false);
+  const [isUploadingExplanationImage, setIsUploadingExplanationImage] =
+    useState(false);
 
   const questionImageRef = useRef<HTMLInputElement>(null);
   const explanationImageRef = useRef<HTMLInputElement>(null);
@@ -102,11 +132,16 @@ export function QuestionForm({ fileId, question, onSuccess }: QuestionFormProps)
 
   const handleImageUpload = async (
     file: File,
-    type: "question" | "explanation"
+    type: "question" | "explanation",
   ) => {
-    const setUploading = type === "question" ? setIsUploadingQuestionImage : setIsUploadingExplanationImage;
-    const setImageId = type === "question" ? setQuestionImageId : setExplanationImageId;
-    const currentImageId = type === "question" ? questionImageId : explanationImageId;
+    const setUploading =
+      type === "question"
+        ? setIsUploadingQuestionImage
+        : setIsUploadingExplanationImage;
+    const setImageId =
+      type === "question" ? setQuestionImageId : setExplanationImageId;
+    const currentImageId =
+      type === "question" ? questionImageId : explanationImageId;
 
     setUploading(true);
     try {
@@ -118,7 +153,9 @@ export function QuestionForm({ fileId, question, onSuccess }: QuestionFormProps)
       if (result.success && result.data) {
         // Delete old image if exists
         if (currentImageId) {
-          try { await deleteQuestionImage(currentImageId); } catch(e) {}
+          try {
+            await deleteQuestionImage(currentImageId);
+          } catch (e) {}
         }
         setImageId(result.data.fileId);
       } else {
@@ -134,7 +171,8 @@ export function QuestionForm({ fileId, question, onSuccess }: QuestionFormProps)
 
   const handleRemoveImage = async (type: "question" | "explanation") => {
     const imageId = type === "question" ? questionImageId : explanationImageId;
-    const setImageId = type === "question" ? setQuestionImageId : setExplanationImageId;
+    const setImageId =
+      type === "question" ? setQuestionImageId : setExplanationImageId;
 
     if (imageId) {
       try {
@@ -193,8 +231,12 @@ export function QuestionForm({ fileId, question, onSuccess }: QuestionFormProps)
     <div className="space-y-8 max-w-4xl mx-auto pb-20">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-extrabold tracking-tight">{isEditing ? "Edit Question" : "New Question"}</h1>
-          <p className="text-muted-foreground mt-1">Compose and configure your question data.</p>
+          <h1 className="text-3xl font-extrabold tracking-tight">
+            {isEditing ? "Edit Question" : "New Question"}
+          </h1>
+          <p className="text-muted-foreground mt-1">
+            Compose and configure your question data.
+          </p>
         </div>
       </div>
 
@@ -209,7 +251,9 @@ export function QuestionForm({ fileId, question, onSuccess }: QuestionFormProps)
                 </div>
                 <div>
                   <CardTitle>Question Content</CardTitle>
-                  <CardDescription>The core text and visual context of your question.</CardDescription>
+                  <CardDescription>
+                    The core text and visual context of your question.
+                  </CardDescription>
                 </div>
               </div>
             </CardHeader>
@@ -224,10 +268,10 @@ export function QuestionForm({ fileId, question, onSuccess }: QuestionFormProps)
                       <HelpCircle className="h-3.5 w-3.5 text-muted-foreground" />
                     </FormLabel>
                     <FormControl>
-                      <Textarea 
-                        placeholder="Type your question here... (HTML supported)" 
-                        className="min-h-[120px] bg-muted/20 border-none focus-visible:ring-1 text-lg leading-relaxed" 
-                        {...field} 
+                      <Textarea
+                        placeholder="Type your question here... (HTML supported)"
+                        className="min-h-[120px] bg-muted/20 border-none focus-visible:ring-1 text-lg leading-relaxed"
+                        {...field}
                       />
                     </FormControl>
                     <FormMessage />
@@ -236,7 +280,9 @@ export function QuestionForm({ fileId, question, onSuccess }: QuestionFormProps)
               />
 
               <div className="space-y-3">
-                <FormLabel className="text-sm font-bold">Supporting Image</FormLabel>
+                <FormLabel className="text-sm font-bold">
+                  Supporting Image
+                </FormLabel>
                 <div className="flex flex-wrap gap-4">
                   {questionImageId ? (
                     <div className="relative group rounded-2xl overflow-hidden border shadow-md animate-in zoom-in-95 duration-200">
@@ -267,12 +313,16 @@ export function QuestionForm({ fileId, question, onSuccess }: QuestionFormProps)
                       {isUploadingQuestionImage ? (
                         <div className="animate-pulse flex flex-col items-center gap-2">
                           <ImageIcon className="h-8 w-8 animate-bounce" />
-                          <span className="text-xs font-bold uppercase tracking-widest">Uploading...</span>
+                          <span className="text-xs font-bold uppercase tracking-widest">
+                            Uploading...
+                          </span>
                         </div>
                       ) : (
                         <>
                           <ImageIcon className="h-8 w-8" />
-                          <span className="text-xs font-bold uppercase tracking-widest">Add Question Image</span>
+                          <span className="text-xs font-bold uppercase tracking-widest">
+                            Add Question Image
+                          </span>
                         </>
                       )}
                     </button>
@@ -301,7 +351,9 @@ export function QuestionForm({ fileId, question, onSuccess }: QuestionFormProps)
                 </div>
                 <div>
                   <CardTitle>Options & Answer</CardTitle>
-                  <CardDescription>Define the possible choices and mark the correct one.</CardDescription>
+                  <CardDescription>
+                    Define the possible choices and mark the correct one.
+                  </CardDescription>
                 </div>
               </div>
             </CardHeader>
@@ -314,12 +366,14 @@ export function QuestionForm({ fileId, question, onSuccess }: QuestionFormProps)
                     name={`option${num}` as any}
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-xs font-black uppercase tracking-widest text-muted-foreground">Choice {num}</FormLabel>
+                        <FormLabel className="text-xs font-black uppercase tracking-widest text-muted-foreground">
+                          Choice {num}
+                        </FormLabel>
                         <FormControl>
-                          <Input 
-                            placeholder={`Enter option ${num}...`} 
-                            className="h-11 bg-muted/20 border-none focus-visible:ring-1" 
-                            {...field} 
+                          <Input
+                            placeholder={`Enter option ${num}...`}
+                            className="h-11 bg-muted/20 border-none focus-visible:ring-1"
+                            {...field}
                           />
                         </FormControl>
                         <FormMessage />
@@ -333,15 +387,19 @@ export function QuestionForm({ fileId, question, onSuccess }: QuestionFormProps)
                   name="answer"
                   render={({ field }) => (
                     <FormItem className="md:col-span-1">
-                      <FormLabel className="text-xs font-black uppercase tracking-widest text-emerald-600">Correct Answer</FormLabel>
+                      <FormLabel className="text-xs font-black uppercase tracking-widest text-emerald-600">
+                        Correct Answer
+                      </FormLabel>
                       <FormControl>
-                        <Input 
-                          placeholder="e.g. 1 or A" 
-                          className="h-11 border-2 border-emerald-500/20 focus-visible:border-emerald-500 focus-visible:ring-emerald-500/10" 
-                          {...field} 
+                        <Input
+                          placeholder="e.g. 1 or A"
+                          className="h-11 border-2 border-emerald-500/20 focus-visible:border-emerald-500 focus-visible:ring-emerald-500/10"
+                          {...field}
                         />
                       </FormControl>
-                      <FormDescription className="text-[10px]">Reference by number (1-5) or letter (A-E).</FormDescription>
+                      <FormDescription className="text-[10px]">
+                        Reference by number (1-5) or letter (A-E).
+                      </FormDescription>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -356,17 +414,26 @@ export function QuestionForm({ fileId, question, onSuccess }: QuestionFormProps)
                   name="section"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-sm font-bold">Section / Subject</FormLabel>
-                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <FormLabel className="text-sm font-bold">
+                        Section / Subject
+                      </FormLabel>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
                         <FormControl>
                           <SelectTrigger className="h-11 bg-muted/20 border-none focus-visible:ring-1">
                             <SelectValue placeholder="Select a section" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          {Object.entries(SECTION_LABELS).map(([value, label]) => (
-                            <SelectItem key={value} value={value}>{label}</SelectItem>
-                          ))}
+                          {Object.entries(SECTION_LABELS).map(
+                            ([value, label]) => (
+                              <SelectItem key={value} value={value}>
+                                {label}
+                              </SelectItem>
+                            ),
+                          )}
                         </SelectContent>
                       </Select>
                       <FormMessage />
@@ -379,14 +446,18 @@ export function QuestionForm({ fileId, question, onSuccess }: QuestionFormProps)
                   name="type"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-sm font-bold">Question Type (ID)</FormLabel>
+                      <FormLabel className="text-sm font-bold">
+                        Question Type (ID)
+                      </FormLabel>
                       <FormControl>
-                        <Input 
-                          type="number" 
-                          placeholder="0" 
-                          className="h-11 bg-muted/20 border-none focus-visible:ring-1" 
-                          {...field} 
-                          onChange={(e) => field.onChange(parseInt(e.target.value) || 0)}
+                        <Input
+                          type="number"
+                          placeholder="0"
+                          className="h-11 bg-muted/20 border-none focus-visible:ring-1"
+                          {...field}
+                          onChange={(e) =>
+                            field.onChange(parseInt(e.target.value) || 0)
+                          }
                         />
                       </FormControl>
                       <FormMessage />
@@ -406,7 +477,9 @@ export function QuestionForm({ fileId, question, onSuccess }: QuestionFormProps)
                 </div>
                 <div>
                   <CardTitle>Solution & Explanation</CardTitle>
-                  <CardDescription>Provide insights on why the answer is correct.</CardDescription>
+                  <CardDescription>
+                    Provide insights on why the answer is correct.
+                  </CardDescription>
                 </div>
               </div>
             </CardHeader>
@@ -416,12 +489,14 @@ export function QuestionForm({ fileId, question, onSuccess }: QuestionFormProps)
                 name="explanation"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-sm font-bold">Explanation Text</FormLabel>
+                    <FormLabel className="text-sm font-bold">
+                      Explanation Text
+                    </FormLabel>
                     <FormControl>
-                      <Textarea 
-                        placeholder="Explain the logic behind the correct answer..." 
-                        className="min-h-[120px] bg-muted/20 border-none focus-visible:ring-1 leading-relaxed" 
-                        {...field} 
+                      <Textarea
+                        placeholder="Explain the logic behind the correct answer..."
+                        className="min-h-[120px] bg-muted/20 border-none focus-visible:ring-1 leading-relaxed"
+                        {...field}
                       />
                     </FormControl>
                     <FormMessage />
@@ -430,7 +505,9 @@ export function QuestionForm({ fileId, question, onSuccess }: QuestionFormProps)
               />
 
               <div className="space-y-3">
-                <FormLabel className="text-sm font-bold">Explanation Image</FormLabel>
+                <FormLabel className="text-sm font-bold">
+                  Explanation Image
+                </FormLabel>
                 <div className="flex flex-wrap gap-4">
                   {explanationImageId ? (
                     <div className="relative group rounded-2xl overflow-hidden border shadow-md animate-in zoom-in-95 duration-200">
@@ -461,12 +538,16 @@ export function QuestionForm({ fileId, question, onSuccess }: QuestionFormProps)
                       {isUploadingExplanationImage ? (
                         <div className="animate-pulse flex flex-col items-center gap-2">
                           <ImageIcon className="h-8 w-8 animate-bounce" />
-                          <span className="text-xs font-bold uppercase tracking-widest">Uploading...</span>
+                          <span className="text-xs font-bold uppercase tracking-widest">
+                            Uploading...
+                          </span>
                         </div>
                       ) : (
                         <>
                           <ImageIcon className="h-8 w-8" />
-                          <span className="text-xs font-bold uppercase tracking-widest">Add Solution Image</span>
+                          <span className="text-xs font-bold uppercase tracking-widest">
+                            Add Solution Image
+                          </span>
                         </>
                       )}
                     </button>

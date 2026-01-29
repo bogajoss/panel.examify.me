@@ -63,15 +63,27 @@ export function Navbar() {
               <div className="bg-primary p-1.5 rounded-lg mr-2">
                 <Shield className="h-5 w-5 text-primary-foreground" />
               </div>
-              <span className="text-xl font-bold tracking-tight">AntiGravity</span>
+              <span className="text-xl font-bold tracking-tight">
+                AntiGravity
+              </span>
             </Link>
 
             {/* Desktop Navigation */}
             <div className="hidden sm:ml-8 sm:flex sm:items-center sm:gap-1">
               {navigation.map((item) => {
-                const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`);
-                if (pathname.startsWith("/admin") && !item.href.startsWith("/admin")) return null;
-                if (!pathname.startsWith("/admin") && item.href.startsWith("/admin")) return null;
+                const isActive =
+                  pathname === item.href ||
+                  pathname.startsWith(`${item.href}/`);
+                if (
+                  pathname.startsWith("/admin") &&
+                  !item.href.startsWith("/admin")
+                )
+                  return null;
+                if (
+                  !pathname.startsWith("/admin") &&
+                  item.href.startsWith("/admin")
+                )
+                  return null;
 
                 return (
                   <Link
@@ -81,7 +93,7 @@ export function Navbar() {
                       "inline-flex items-center gap-2 px-3 py-2 text-sm font-medium rounded-md transition-all duration-200",
                       isActive
                         ? "bg-primary/10 text-primary"
-                        : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                        : "text-muted-foreground hover:bg-muted hover:text-foreground",
                     )}
                   >
                     <item.icon className="h-4 w-4" />
@@ -95,7 +107,9 @@ export function Navbar() {
                 <>
                   <div className="h-6 w-px bg-border mx-2" />
                   {adminNavigation.map((item) => {
-                    const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`);
+                    const isActive =
+                      pathname === item.href ||
+                      pathname.startsWith(`${item.href}/`);
                     return (
                       <Link
                         key={item.name}
@@ -104,7 +118,7 @@ export function Navbar() {
                           "inline-flex items-center gap-2 px-3 py-2 text-sm font-medium rounded-md transition-all duration-200",
                           isActive
                             ? "bg-primary/10 text-primary"
-                            : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                            : "text-muted-foreground hover:bg-muted hover:text-foreground",
                         )}
                       >
                         <item.icon className="h-4 w-4" />
@@ -114,11 +128,15 @@ export function Navbar() {
                   })}
                 </>
               )}
-              
+
               {/* Back to User Dashboard button when in Admin */}
               {isAdmin && pathname.startsWith("/admin") && (
                 <Link href="/" className="ml-2">
-                  <Button variant="ghost" size="sm" className="text-muted-foreground">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="text-muted-foreground"
+                  >
                     Exit Admin
                   </Button>
                 </Link>
@@ -133,15 +151,22 @@ export function Navbar() {
                 <div className="hidden sm:flex items-center gap-4">
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" className="relative h-10 w-full flex items-center gap-2 pl-2 pr-3 hover:bg-muted transition-colors">
+                      <Button
+                        variant="ghost"
+                        className="relative h-10 w-full flex items-center gap-2 pl-2 pr-3 hover:bg-muted transition-colors"
+                      >
                         <Avatar className="h-8 w-8">
                           <AvatarFallback className="bg-primary/10 text-primary text-xs">
                             {getInitials(user.name)}
                           </AvatarFallback>
                         </Avatar>
                         <div className="flex flex-col items-start text-left">
-                          <span className="text-sm font-medium leading-none">{user.name}</span>
-                          <span className="text-xs text-muted-foreground">{isAdmin ? "Administrator" : "User"}</span>
+                          <span className="text-sm font-medium leading-none">
+                            {user.name}
+                          </span>
+                          <span className="text-xs text-muted-foreground">
+                            {isAdmin ? "Administrator" : "User"}
+                          </span>
                         </div>
                         <ChevronDown className="h-4 w-4 text-muted-foreground" />
                       </Button>
@@ -157,7 +182,10 @@ export function Navbar() {
                           </Link>
                         </DropdownMenuItem>
                       )}
-                      <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={logout}>
+                      <DropdownMenuItem
+                        className="text-destructive focus:text-destructive"
+                        onClick={logout}
+                      >
                         <LogOut className="mr-2 h-4 w-4" />
                         <span>Logout</span>
                       </DropdownMenuItem>
@@ -187,26 +215,29 @@ export function Navbar() {
       {/* Mobile menu */}
       {isMobileMenuOpen && (
         <div className="sm:hidden border-t bg-background p-4 space-y-2 animate-in slide-in-from-top-4 duration-200">
-          {(pathname.startsWith("/admin") ? adminNavigation : navigation).map((item) => {
-            const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`);
-            return (
-              <Link
-                key={item.name}
-                href={item.href}
-                className={cn(
-                  "flex items-center gap-3 px-3 py-3 text-base font-medium rounded-md",
-                  isActive
-                    ? "bg-primary/10 text-primary"
-                    : "text-muted-foreground hover:bg-muted hover:text-foreground"
-                )}
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                <item.icon className="h-5 w-5" />
-                {item.name}
-              </Link>
-            );
-          })}
-          
+          {(pathname.startsWith("/admin") ? adminNavigation : navigation).map(
+            (item) => {
+              const isActive =
+                pathname === item.href || pathname.startsWith(`${item.href}/`);
+              return (
+                <Link
+                  key={item.name}
+                  href={item.href}
+                  className={cn(
+                    "flex items-center gap-3 px-3 py-3 text-base font-medium rounded-md",
+                    isActive
+                      ? "bg-primary/10 text-primary"
+                      : "text-muted-foreground hover:bg-muted hover:text-foreground",
+                  )}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  <item.icon className="h-5 w-5" />
+                  {item.name}
+                </Link>
+              );
+            },
+          )}
+
           {isAdmin && !pathname.startsWith("/admin") && (
             <Link
               href="/admin"
@@ -228,7 +259,9 @@ export function Navbar() {
                 </Avatar>
                 <div>
                   <div className="text-sm font-semibold">{user.name}</div>
-                  <div className="text-xs text-muted-foreground capitalize">{user.role}</div>
+                  <div className="text-xs text-muted-foreground capitalize">
+                    {user.role}
+                  </div>
                 </div>
               </div>
               <Button

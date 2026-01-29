@@ -50,11 +50,7 @@ export default async function UploadPage({ searchParams }: UploadPageProps) {
         </p>
       </div>
 
-      {mergeFile ? (
-        <MergeCSVForm file={mergeFile} />
-      ) : (
-        <CSVUploadForm />
-      )}
+      {mergeFile ? <MergeCSVForm file={mergeFile} /> : <CSVUploadForm />}
 
       {/* Tips */}
       <Card>
@@ -62,13 +58,23 @@ export default async function UploadPage({ searchParams }: UploadPageProps) {
           <div className="flex gap-3">
             <AlertCircle className="h-5 w-5 text-blue-500 flex-shrink-0 mt-0.5" />
             <div className="text-sm text-gray-600">
-              <p className="font-medium text-gray-900 mb-1">Tips for best results:</p>
+              <p className="font-medium text-gray-900 mb-1">
+                Tips for best results:
+              </p>
               <ul className="list-disc list-inside space-y-1">
                 <li>Ensure your CSV is UTF-8 encoded</li>
                 <li>Use column headers in the first row</li>
-                <li>The &quot;questions&quot; or &quot;question&quot; column is required</li>
-                <li>HTML formatting is preserved in question and explanation text</li>
-                <li>Enable zero-indexed conversion if answers use 0-3 instead of 1-4</li>
+                <li>
+                  The &quot;questions&quot; or &quot;question&quot; column is
+                  required
+                </li>
+                <li>
+                  HTML formatting is preserved in question and explanation text
+                </li>
+                <li>
+                  Enable zero-indexed conversion if answers use 0-3 instead of
+                  1-4
+                </li>
               </ul>
             </div>
           </div>

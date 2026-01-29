@@ -6,7 +6,8 @@ const endpoint = "https://sgp.cloud.appwrite.io/v1";
 const projectId = "695103540022da68cbb9";
 const databaseId = "question-bank";
 const userProfilesId = "user-profiles";
-const apiKey = "standard_98ab153bd8522e3fad12fc56435c49f24aa1e2551688c10b3de9b9c88b0a913cdf8890716f69824faa3c78586e98b7a70e5da161d786b49ae089bf20578741e8d5e3bb72e88a74f1fde8c03407f535bc00d1eeacd65de0f6e1ebef9b6cdea2ef4b341265d8b3d90ed0eb6c81f4a91d3cdf155ffefd081e57dd88c71a98c9f697";
+const apiKey =
+  "standard_98ab153bd8522e3fad12fc56435c49f24aa1e2551688c10b3de9b9c88b0a913cdf8890716f69824faa3c78586e98b7a70e5da161d786b49ae089bf20578741e8d5e3bb72e88a74f1fde8c03407f535bc00d1eeacd65de0f6e1ebef9b6cdea2ef4b341265d8b3d90ed0eb6c81f4a91d3cdf155ffefd081e57dd88c71a98c9f697";
 
 if (!endpoint || !projectId || !databaseId || !userProfilesId || !apiKey) {
   console.error("Missing environment variables");
@@ -29,7 +30,7 @@ async function updateSchema() {
         userProfilesId,
         "username",
         255,
-        true // required
+        true, // required
       );
       console.log("✓ Added username attribute");
 
@@ -39,7 +40,7 @@ async function updateSchema() {
         userProfilesId,
         "username_unique",
         "unique",
-        ["username"]
+        ["username"],
       );
       console.log("✓ Created username unique index");
     } catch (err) {
@@ -58,7 +59,7 @@ async function updateSchema() {
         userProfilesId,
         "password",
         512,
-        true // required
+        true, // required
       );
       console.log("✓ Added password attribute");
     } catch (err) {
@@ -77,7 +78,7 @@ async function updateSchema() {
         userProfilesId,
         "name",
         255,
-        false // not required
+        false, // not required
       );
       console.log("✓ Added name attribute");
     } catch (err) {
@@ -120,7 +121,7 @@ async function createAdminUser() {
           result.documents[0].$id,
           {
             password: plaintextPassword,
-          }
+          },
         );
         console.log("✓ Admin password updated to plaintext successfully!");
         return;
@@ -136,13 +137,13 @@ async function createAdminUser() {
       userProfilesId,
       userId,
       {
-        userId,  // Include the userId field for compatibility
+        userId, // Include the userId field for compatibility
         username,
         password: plaintextPassword,
         name,
         role: "admin",
         createdAt: new Date().toISOString(),
-      }
+      },
     );
 
     console.log("✓ Admin user created successfully!");

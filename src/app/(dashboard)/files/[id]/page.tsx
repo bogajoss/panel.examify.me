@@ -5,15 +5,23 @@ import { requireAuth, isAdmin as checkIsAdmin } from "@/lib/auth";
 import { getFileById } from "@/lib/actions";
 import { QuestionList } from "@/components/questions";
 import { Breadcrumb } from "@/components/layout";
-import { 
-  Button, 
-  LoadingPage, 
-  Card, 
-  CardContent, 
+import {
+  Button,
+  LoadingPage,
+  Card,
+  CardContent,
   Badge,
-  Separator
+  Separator,
 } from "@/components/ui";
-import { Plus, Upload, Database, FileText, Calendar, Hash, ArrowLeft } from "lucide-react";
+import {
+  Plus,
+  Upload,
+  Database,
+  FileText,
+  Calendar,
+  Hash,
+  ArrowLeft,
+} from "lucide-react";
 import { formatDate } from "@/lib/utils";
 import type { Metadata } from "next";
 
@@ -21,10 +29,12 @@ interface FilePageProps {
   params: Promise<{ id: string }>;
 }
 
-export async function generateMetadata({ params }: FilePageProps): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: FilePageProps): Promise<Metadata> {
   const { id } = await params;
   const result = await getFileById(id);
-  
+
   if (!result.success || !result.data) {
     return { title: "File Not Found | AntiGravity Question Bank" };
   }
@@ -70,8 +80,15 @@ export default async function FilePage({ params }: FilePageProps) {
                 {file.displayName || file.originalFilename}
               </h1>
               <div className="flex items-center gap-2 mt-1">
-                <Badge variant="secondary" className="font-semibold uppercase tracking-wider text-[10px]">Collection</Badge>
-                <span className="text-sm text-muted-foreground font-mono uppercase tracking-widest">{file.$id.slice(-8)}</span>
+                <Badge
+                  variant="secondary"
+                  className="font-semibold uppercase tracking-wider text-[10px]"
+                >
+                  Collection
+                </Badge>
+                <span className="text-sm text-muted-foreground font-mono uppercase tracking-widest">
+                  {file.$id.slice(-8)}
+                </span>
               </div>
             </div>
           </div>
@@ -85,7 +102,10 @@ export default async function FilePage({ params }: FilePageProps) {
                 Individual Add
               </Button>
             </Link>
-            <Link href={`/admin/upload?merge=${id}`} className="flex-1 lg:flex-none">
+            <Link
+              href={`/admin/upload?merge=${id}`}
+              className="flex-1 lg:flex-none"
+            >
               <Button className="w-full h-11 px-6 shadow-md shadow-primary/20">
                 <Upload className="h-4 w-4 mr-2" />
                 Batch Merge (CSV)
@@ -103,8 +123,12 @@ export default async function FilePage({ params }: FilePageProps) {
               <FileText className="h-5 w-5 text-blue-500" />
             </div>
             <div>
-              <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Original Name</p>
-              <p className="text-sm font-semibold truncate max-w-[150px]">{file.originalFilename}</p>
+              <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
+                Original Name
+              </p>
+              <p className="text-sm font-semibold truncate max-w-[150px]">
+                {file.originalFilename}
+              </p>
             </div>
           </CardContent>
         </Card>
@@ -115,8 +139,12 @@ export default async function FilePage({ params }: FilePageProps) {
               <Hash className="h-5 w-5 text-emerald-500" />
             </div>
             <div>
-              <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Question Count</p>
-              <p className="text-sm font-semibold">{file.totalQuestions} items</p>
+              <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
+                Question Count
+              </p>
+              <p className="text-sm font-semibold">
+                {file.totalQuestions} items
+              </p>
             </div>
           </CardContent>
         </Card>
@@ -127,8 +155,12 @@ export default async function FilePage({ params }: FilePageProps) {
               <Calendar className="h-5 w-5 text-violet-500" />
             </div>
             <div>
-              <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Uploaded On</p>
-              <p className="text-sm font-semibold">{formatDate(file.uploadedAt)}</p>
+              <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
+                Uploaded On
+              </p>
+              <p className="text-sm font-semibold">
+                {formatDate(file.uploadedAt)}
+              </p>
             </div>
           </CardContent>
         </Card>
@@ -139,8 +171,12 @@ export default async function FilePage({ params }: FilePageProps) {
               <Plus className="h-5 w-5 text-amber-500" />
             </div>
             <div>
-              <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Created By</p>
-              <p className="text-sm font-semibold capitalize">{isAdmin ? "Administrator" : "User"}</p>
+              <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
+                Created By
+              </p>
+              <p className="text-sm font-semibold capitalize">
+                {isAdmin ? "Administrator" : "User"}
+              </p>
             </div>
           </CardContent>
         </Card>
@@ -151,7 +187,9 @@ export default async function FilePage({ params }: FilePageProps) {
       {/* Questions Header */}
       <div className="space-y-1 mb-8">
         <h2 className="text-2xl font-bold tracking-tight">Question List</h2>
-        <p className="text-muted-foreground">Explore and manage questions in this collection.</p>
+        <p className="text-muted-foreground">
+          Explore and manage questions in this collection.
+        </p>
       </div>
 
       {/* Questions List */}

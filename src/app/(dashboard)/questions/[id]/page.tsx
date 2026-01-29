@@ -43,7 +43,8 @@ export default async function QuestionPage({ params }: QuestionPageProps) {
   ].filter((opt) => opt.value);
 
   const answerLetter = answerToLetter(question.answer);
-  const sectionLabel = SECTION_LABELS[question.section as SectionTypeValue] || question.section;
+  const sectionLabel =
+    SECTION_LABELS[question.section as SectionTypeValue] || question.section;
 
   return (
     <div className="space-y-6">
@@ -132,7 +133,9 @@ export default async function QuestionPage({ params }: QuestionPageProps) {
                 >
                   <span
                     className={`font-semibold mr-3 ${
-                      opt.label === answerLetter ? "text-green-700" : "text-gray-700"
+                      opt.label === answerLetter
+                        ? "text-green-700"
+                        : "text-gray-700"
                     }`}
                   >
                     {opt.label}.
@@ -159,7 +162,9 @@ export default async function QuestionPage({ params }: QuestionPageProps) {
           {/* Explanation */}
           {question.explanation && (
             <div>
-              <h2 className="text-sm font-medium text-gray-500 mb-2">Explanation</h2>
+              <h2 className="text-sm font-medium text-gray-500 mb-2">
+                Explanation
+              </h2>
 
               {question.explanationImageId && (
                 <div className="mb-3">

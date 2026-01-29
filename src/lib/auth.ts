@@ -19,7 +19,7 @@ export interface SessionUser {
 // Login with username and password (updated for plaintext)
 export async function loginUser(
   username: string,
-  password: string
+  password: string,
 ): Promise<ActionResponse<SessionUser>> {
   try {
     const db = await getDatabases();
@@ -29,7 +29,7 @@ export async function loginUser(
     const result = await db.listDocuments(
       appwriteConfig.databaseId,
       appwriteConfig.collections.userProfiles,
-      [Query.equal("username", username)]
+      [Query.equal("username", username)],
     );
 
     const user = result.documents[0];
@@ -38,7 +38,7 @@ export async function loginUser(
       providedPassword: password,
       userFound: !!user,
       dbPassword: user?.password,
-      match: user?.password === plaintextPassword
+      match: user?.password === plaintextPassword,
     });
 
     if (!user || user.password !== plaintextPassword) {
@@ -82,7 +82,7 @@ export async function loginUser(
 export async function registerUser(
   username: string,
   password: string,
-  name: string
+  name: string,
 ): Promise<ActionResponse<SessionUser>> {
   try {
     const db = await getDatabases();
@@ -91,7 +91,7 @@ export async function registerUser(
     const existing = await db.listDocuments(
       appwriteConfig.databaseId,
       appwriteConfig.collections.userProfiles,
-      [Query.equal("username", username)]
+      [Query.equal("username", username)],
     );
 
     if (existing.documents.length > 0) {
@@ -115,7 +115,7 @@ export async function registerUser(
         name,
         role: "user",
         createdAt: new Date().toISOString(),
-      }
+      },
     );
 
     // Create session

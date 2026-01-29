@@ -1,9 +1,9 @@
-import { clsx, type ClassValue } from "clsx"
-import { twMerge } from "tailwind-merge"
-import { appwriteConfig } from "./appwrite"
+import { clsx, type ClassValue } from "clsx";
+import { twMerge } from "tailwind-merge";
+import { appwriteConfig } from "./appwrite";
 
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
+  return twMerge(clsx(inputs));
 }
 
 export function getImageUrl(fileId: string): string {
@@ -12,7 +12,8 @@ export function getImageUrl(fileId: string): string {
 }
 
 export function formatDate(dateString: string | Date): string {
-  const date = typeof dateString === "string" ? new Date(dateString) : dateString;
+  const date =
+    typeof dateString === "string" ? new Date(dateString) : dateString;
   return date.toLocaleDateString(undefined, {
     year: "numeric",
     month: "long",
@@ -21,14 +22,16 @@ export function formatDate(dateString: string | Date): string {
 }
 
 export function formatRelativeTime(dateString: string | Date): string {
-  const date = typeof dateString === "string" ? new Date(dateString) : dateString;
+  const date =
+    typeof dateString === "string" ? new Date(dateString) : dateString;
   const now = new Date();
   const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
 
   if (diffInSeconds < 60) return "just now";
   if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)}m ago`;
   if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)}h ago`;
-  if (diffInSeconds < 604800) return `${Math.floor(diffInSeconds / 86400)}d ago`;
+  if (diffInSeconds < 604800)
+    return `${Math.floor(diffInSeconds / 86400)}d ago`;
 
   return formatDate(date);
 }

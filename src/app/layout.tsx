@@ -10,7 +10,8 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: "AntiGravity Question Bank",
-  description: "A modern question bank management system built with Next.js and Appwrite",
+  description:
+    "A modern question bank management system built with Next.js and Appwrite",
 };
 
 export default function RootLayout({
@@ -20,10 +21,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.variable} font-sans antialiased bg-gray-50`} suppressHydrationWarning>
-        <AuthProvider>
-          {children}
-        </AuthProvider>
+      <body
+        className={`${inter.variable} font-sans antialiased bg-gray-50`}
+        suppressHydrationWarning
+      >
+        <AuthProvider>{children}</AuthProvider>
       </body>
     </html>
   );

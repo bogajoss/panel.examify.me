@@ -33,7 +33,7 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
         className={cn(
           "relative w-full rounded-lg border p-4 flex gap-3",
           variants[variant],
-          className
+          className,
         )}
         {...props}
       >
@@ -41,7 +41,7 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
         <div className="flex-1">{children}</div>
       </div>
     );
-  }
+  },
 );
 Alert.displayName = "Alert";
 

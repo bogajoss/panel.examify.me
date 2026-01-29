@@ -32,7 +32,7 @@ async function createAdminUser() {
       "unique()", // userId - auto-generate
       email,
       password,
-      name
+      name,
     );
 
     console.log("✅ User created successfully!");

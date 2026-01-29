@@ -1,19 +1,25 @@
 import Link from "next/link";
 import { requireAuth } from "@/lib/auth";
 import { getFiles, getQuestions } from "@/lib/actions";
-import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "@/components/ui/Card";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardContent,
+  CardDescription,
+} from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/badge";
-import { 
-  Files, 
-  FileQuestion, 
-  Upload, 
-  TrendingUp, 
-  ChevronRight, 
+import {
+  Files,
+  FileQuestion,
+  Upload,
+  TrendingUp,
+  ChevronRight,
   Plus,
   Clock,
   ArrowUpRight,
-  Shield
+  Shield,
 } from "lucide-react";
 import type { Metadata } from "next";
 
@@ -32,11 +38,19 @@ export default async function DashboardPage() {
   const questionsResult = await getQuestions({ pageSize: 1 });
 
   const totalFiles = filesResult.success ? filesResult.data?.total || 0 : 0;
-  const totalQuestions = questionsResult.success ? questionsResult.data?.total || 0 : 0;
+  const totalQuestions = questionsResult.success
+    ? questionsResult.data?.total || 0
+    : 0;
 
   // Get recent files
-  const recentFilesResult = await getFiles({ pageSize: 5, sortBy: "uploaded", sortOrder: "desc" });
-  const recentFiles = recentFilesResult.success ? recentFilesResult.data?.documents || [] : [];
+  const recentFilesResult = await getFiles({
+    pageSize: 5,
+    sortBy: "uploaded",
+    sortOrder: "desc",
+  });
+  const recentFiles = recentFilesResult.success
+    ? recentFilesResult.data?.documents || []
+    : [];
 
   return (
     <div className="space-y-10 pb-10">
@@ -69,7 +83,9 @@ export default async function DashboardPage() {
           <CardContent className="p-6">
             <div className="flex justify-between items-start">
               <div>
-                <p className="text-sm font-medium text-blue-600 dark:text-blue-400">Total Files</p>
+                <p className="text-sm font-medium text-blue-600 dark:text-blue-400">
+                  Total Files
+                </p>
                 <p className="text-3xl font-bold mt-1">{totalFiles}</p>
               </div>
               <div className="p-2 bg-blue-500/10 rounded-xl">
@@ -87,7 +103,9 @@ export default async function DashboardPage() {
           <CardContent className="p-6">
             <div className="flex justify-between items-start">
               <div>
-                <p className="text-sm font-medium text-emerald-600 dark:text-emerald-400">Total Questions</p>
+                <p className="text-sm font-medium text-emerald-600 dark:text-emerald-400">
+                  Total Questions
+                </p>
                 <p className="text-3xl font-bold mt-1">{totalQuestions}</p>
               </div>
               <div className="p-2 bg-emerald-500/10 rounded-xl">
@@ -105,7 +123,9 @@ export default async function DashboardPage() {
           <CardContent className="p-6">
             <div className="flex justify-between items-start">
               <div>
-                <p className="text-sm font-medium text-violet-600 dark:text-violet-400">Avg Q/File</p>
+                <p className="text-sm font-medium text-violet-600 dark:text-violet-400">
+                  Avg Q/File
+                </p>
                 <p className="text-3xl font-bold mt-1">
                   {totalFiles > 0 ? Math.round(totalQuestions / totalFiles) : 0}
                 </p>
@@ -125,8 +145,12 @@ export default async function DashboardPage() {
           <CardContent className="p-6">
             <div className="flex justify-between items-start">
               <div>
-                <p className="text-sm font-medium text-amber-600 dark:text-amber-400">Account Type</p>
-                <p className="text-3xl font-bold mt-1 capitalize">{user.role || "User"}</p>
+                <p className="text-sm font-medium text-amber-600 dark:text-amber-400">
+                  Account Type
+                </p>
+                <p className="text-3xl font-bold mt-1 capitalize">
+                  {user.role || "User"}
+                </p>
               </div>
               <div className="p-2 bg-amber-500/10 rounded-xl">
                 {isAdmin ? "👑" : "👤"}
@@ -146,7 +170,9 @@ export default async function DashboardPage() {
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <div>
               <CardTitle className="text-2xl">Recent Files</CardTitle>
-              <CardDescription>Latest uploads to the question bank</CardDescription>
+              <CardDescription>
+                Latest uploads to the question bank
+              </CardDescription>
             </div>
             <Link href="/files">
               <Button variant="outline" size="sm" className="group">
@@ -159,7 +185,9 @@ export default async function DashboardPage() {
             {recentFiles.length === 0 ? (
               <div className="flex flex-col items-center justify-center py-12 text-center bg-muted/30 rounded-lg border border-dashed">
                 <Files className="h-12 w-12 text-muted-foreground mb-4 opacity-20" />
-                <p className="text-muted-foreground font-medium">No files uploaded yet</p>
+                <p className="text-muted-foreground font-medium">
+                  No files uploaded yet
+                </p>
                 {isAdmin && (
                   <Link href="/admin/upload" className="mt-4">
                     <Button variant="secondary" size="sm">
@@ -190,10 +218,13 @@ export default async function DashboardPage() {
                           </Badge>
                           <span className="flex items-center gap-1">
                             <Clock className="h-3 w-3" />
-                            {new Date(file.uploadedAt).toLocaleDateString(undefined, { 
-                              month: 'short', 
-                              day: 'numeric' 
-                            })}
+                            {new Date(file.uploadedAt).toLocaleDateString(
+                              undefined,
+                              {
+                                month: "short",
+                                day: "numeric",
+                              },
+                            )}
                           </span>
                         </div>
                       </div>
@@ -233,20 +264,29 @@ export default async function DashboardPage() {
             </CardHeader>
             <CardContent className="grid gap-3">
               <Link href="/files">
-                <Button variant="outline" className="w-full justify-start gap-3 h-12 px-4">
+                <Button
+                  variant="outline"
+                  className="w-full justify-start gap-3 h-12 px-4"
+                >
                   <Files className="h-5 w-5 text-blue-500" />
                   Browse Collections
                 </Button>
               </Link>
               <Link href="/questions">
-                <Button variant="outline" className="w-full justify-start gap-3 h-12 px-4">
+                <Button
+                  variant="outline"
+                  className="w-full justify-start gap-3 h-12 px-4"
+                >
                   <FileQuestion className="h-5 w-5 text-emerald-500" />
                   Global Search
                 </Button>
               </Link>
               {isAdmin && (
                 <Link href="/admin/upload">
-                  <Button variant="outline" className="w-full justify-start gap-3 h-12 px-4 border-dashed border-primary/50 hover:border-primary">
+                  <Button
+                    variant="outline"
+                    className="w-full justify-start gap-3 h-12 px-4 border-dashed border-primary/50 hover:border-primary"
+                  >
                     <Upload className="h-5 w-5 text-violet-500" />
                     Batch Upload
                   </Button>

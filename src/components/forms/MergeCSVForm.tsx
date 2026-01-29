@@ -4,21 +4,31 @@ import { useRouter } from "next/navigation";
 import { useState, useRef } from "react";
 import type { QuestionFile } from "@/types";
 import { mergeCSVFile } from "@/lib/actions";
-import { 
-  Button, 
-  Input, 
-  Label, 
-  Alert, 
+import {
+  Button,
+  Input,
+  Label,
+  Alert,
   Switch,
   Badge,
   Separator,
-  Card, 
-  CardHeader, 
-  CardTitle, 
-  CardDescription, 
-  CardContent 
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
 } from "@/components/ui";
-import { Upload, FileText, X, ArrowLeft, Database, PlusCircle, HelpCircle, AlertCircle, CheckCircle2 } from "lucide-react";
+import {
+  Upload,
+  FileText,
+  X,
+  ArrowLeft,
+  Database,
+  PlusCircle,
+  HelpCircle,
+  AlertCircle,
+  CheckCircle2,
+} from "lucide-react";
 import Link from "next/link";
 
 interface MergeCSVFormProps {
@@ -74,13 +84,17 @@ export function MergeCSVForm({ file }: MergeCSVFormProps) {
       const result = await mergeCSVFile(file.$id, formData);
 
       if (result.success && result.data) {
-        setSuccess(`Successfully merged ${result.data.questionCount} new questions into the collection!`);
+        setSuccess(
+          `Successfully merged ${result.data.questionCount} new questions into the collection!`,
+        );
         clearFile();
         setTimeout(() => {
           router.push(`/files/${file.$id}`);
         }, 1500);
       } else {
-        setError(result.error || "Failed to merge questions. Check your CSV format.");
+        setError(
+          result.error || "Failed to merge questions. Check your CSV format.",
+        );
       }
     } catch (err) {
       setError("An unexpected error occurred during the merge process.");
@@ -97,20 +111,28 @@ export function MergeCSVForm({ file }: MergeCSVFormProps) {
           <Database className="h-5 w-5" />
         </div>
         <div>
-          <p className="text-xs font-bold uppercase tracking-widest text-primary/70">Target Collection</p>
-          <h3 className="font-bold text-lg">{file.displayName || file.originalFilename}</h3>
+          <p className="text-xs font-bold uppercase tracking-widest text-primary/70">
+            Target Collection
+          </p>
+          <h3 className="font-bold text-lg">
+            {file.displayName || file.originalFilename}
+          </h3>
         </div>
-        <Badge variant="secondary" className="ml-auto font-mono">{file.totalQuestions} Questions</Badge>
+        <Badge variant="secondary" className="ml-auto font-mono">
+          {file.totalQuestions} Questions
+        </Badge>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-8">
         {/* File Drop Zone */}
         <div className="space-y-3">
-          <Label className="text-sm font-bold uppercase tracking-wider text-muted-foreground ml-1">Append CSV Data</Label>
+          <Label className="text-sm font-bold uppercase tracking-wider text-muted-foreground ml-1">
+            Append CSV Data
+          </Label>
           <div
             className={`relative border-2 border-dashed rounded-2xl p-10 text-center transition-all duration-300 group cursor-pointer ${
-              selectedFile 
-                ? "bg-emerald-500/5 border-emerald-500 shadow-inner" 
+              selectedFile
+                ? "bg-emerald-500/5 border-emerald-500 shadow-inner"
                 : "bg-muted/30 border-muted-foreground/20 hover:border-emerald-500/50 hover:bg-muted/50"
             }`}
             onClick={() => fileInputRef.current?.click()}
@@ -156,7 +178,8 @@ export function MergeCSVForm({ file }: MergeCSVFormProps) {
                 <div>
                   <p className="text-lg font-bold">Add Question Data</p>
                   <p className="text-sm text-muted-foreground mt-1 max-w-xs mx-auto">
-                    Select a CSV file to append its questions to the current collection.
+                    Select a CSV file to append its questions to the current
+                    collection.
                   </p>
                 </div>
               </div>
@@ -196,8 +219,15 @@ export function MergeCSVForm({ file }: MergeCSVFormProps) {
             )}
 
             <div className="flex flex-col sm:flex-row gap-3">
-              <Link href={`/files/${file.$id}`} className="flex-1 order-2 sm:order-1">
-                <Button type="button" variant="ghost" className="w-full h-12 font-bold">
+              <Link
+                href={`/files/${file.$id}`}
+                className="flex-1 order-2 sm:order-1"
+              >
+                <Button
+                  type="button"
+                  variant="ghost"
+                  className="w-full h-12 font-bold"
+                >
                   Cancel
                 </Button>
               </Link>

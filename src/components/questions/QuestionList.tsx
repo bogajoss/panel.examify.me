@@ -6,21 +6,27 @@ import type { Question, QuestionFilters, SectionTypeValue } from "@/types";
 import { SECTION_LABELS } from "@/types";
 import { getQuestions } from "@/lib/actions";
 import { QuestionCard } from "./QuestionCard";
-import { 
-  EmptyState, 
-  LoadingSpinner, 
-  Pagination, 
-  Input, 
-  Button, 
+import {
+  EmptyState,
+  LoadingSpinner,
+  Pagination,
+  Input,
+  Button,
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
   Badge,
-  Separator
+  Separator,
 } from "@/components/ui";
-import { Search, Filter, X, SlidersHorizontal, ChevronRight } from "lucide-react";
+import {
+  Search,
+  Filter,
+  X,
+  SlidersHorizontal,
+  ChevronRight,
+} from "lucide-react";
 
 interface QuestionListProps {
   fileId?: string;
@@ -36,15 +42,21 @@ export function QuestionList({
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const [questions, setQuestions] = useState<Question[]>(initialQuestions || []);
+  const [questions, setQuestions] = useState<Question[]>(
+    initialQuestions || [],
+  );
   const [total, setTotal] = useState(initialTotal || 0);
   const [isLoading, setIsLoading] = useState(!initialQuestions);
-  const [searchTerm, setSearchTerm] = useState(searchParams.get("search") || "");
+  const [searchTerm, setSearchTerm] = useState(
+    searchParams.get("search") || "",
+  );
   const [showFilters, setShowFilters] = useState(false);
 
   const page = parseInt(searchParams.get("page") || "1");
   const section = searchParams.get("section") || undefined;
-  const type = searchParams.get("type") ? parseInt(searchParams.get("type")!) : undefined;
+  const type = searchParams.get("type")
+    ? parseInt(searchParams.get("type")!)
+    : undefined;
   const pageSize = 20;
 
   useEffect(() => {
@@ -95,11 +107,17 @@ export function QuestionList({
   };
 
   const handleSectionChange = (value: string) => {
-    updateSearchParams({ section: value === "all" ? undefined : value, page: "1" });
+    updateSearchParams({
+      section: value === "all" ? undefined : value,
+      page: "1",
+    });
   };
 
   const handleTypeChange = (value: string) => {
-    updateSearchParams({ type: value === "all" ? undefined : value, page: "1" });
+    updateSearchParams({
+      type: value === "all" ? undefined : value,
+      page: "1",
+    });
   };
 
   const clearFilters = () => {
@@ -141,12 +159,23 @@ export function QuestionList({
                 <SlidersHorizontal className="h-4 w-4 mr-2" />
                 Filters
                 {hasActiveFilters && (
-                  <Badge variant="default" className="ml-2 h-5 min-w-5 p-0 flex items-center justify-center rounded-full text-[10px]">
-                    { [section, type, searchParams.get("search")].filter(Boolean).length }
+                  <Badge
+                    variant="default"
+                    className="ml-2 h-5 min-w-5 p-0 flex items-center justify-center rounded-full text-[10px]"
+                  >
+                    {
+                      [section, type, searchParams.get("search")].filter(
+                        Boolean,
+                      ).length
+                    }
                   </Badge>
                 )}
               </Button>
-              <Button type="submit" onClick={handleSearch} className="h-11 px-6">
+              <Button
+                type="submit"
+                onClick={handleSearch}
+                className="h-11 px-6"
+              >
                 Search
               </Button>
             </div>
@@ -158,22 +187,32 @@ export function QuestionList({
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                 <div className="space-y-2">
                   <label className="text-sm font-semibold ml-1">Section</label>
-                  <Select value={section || "all"} onValueChange={handleSectionChange}>
+                  <Select
+                    value={section || "all"}
+                    onValueChange={handleSectionChange}
+                  >
                     <SelectTrigger className="h-10 bg-muted/30 border-none ring-offset-background focus:ring-1">
                       <SelectValue placeholder="All Sections" />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="all">All Sections</SelectItem>
                       {Object.entries(SECTION_LABELS).map(([value, label]) => (
-                        <SelectItem key={value} value={value}>{label}</SelectItem>
+                        <SelectItem key={value} value={value}>
+                          {label}
+                        </SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-sm font-semibold ml-1">Question Type</label>
-                  <Select value={type?.toString() || "all"} onValueChange={handleTypeChange}>
+                  <label className="text-sm font-semibold ml-1">
+                    Question Type
+                  </label>
+                  <Select
+                    value={type?.toString() || "all"}
+                    onValueChange={handleTypeChange}
+                  >
                     <SelectTrigger className="h-10 bg-muted/30 border-none ring-offset-background focus:ring-1">
                       <SelectValue placeholder="All Types" />
                     </SelectTrigger>
@@ -189,7 +228,12 @@ export function QuestionList({
 
                 <div className="flex items-end">
                   {hasActiveFilters && (
-                    <Button variant="ghost" size="sm" onClick={clearFilters} className="text-muted-foreground hover:text-destructive">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={clearFilters}
+                      className="text-muted-foreground hover:text-destructive"
+                    >
                       <X className="h-4 w-4 mr-2" />
                       Clear all filters
                     </Button>
@@ -205,7 +249,11 @@ export function QuestionList({
       <div className="flex items-center justify-between">
         <h2 className="text-sm font-bold text-muted-foreground uppercase tracking-widest flex items-center gap-2">
           {total} results found
-          {hasActiveFilters && <Badge variant="secondary" className="font-normal lowercase">filtered</Badge>}
+          {hasActiveFilters && (
+            <Badge variant="secondary" className="font-normal lowercase">
+              filtered
+            </Badge>
+          )}
         </h2>
       </div>
 

@@ -6,11 +6,11 @@ import { useRouter } from "next/navigation";
 import { useState, useRef } from "react";
 import { fileUploadSchema, type FileUploadFormData } from "@/types";
 import { uploadCSVFile } from "@/lib/actions";
-import { 
-  Button, 
-  Input, 
-  Label, 
-  Alert, 
+import {
+  Button,
+  Input,
+  Label,
+  Alert,
   Form,
   FormControl,
   FormField,
@@ -20,13 +20,21 @@ import {
   FormDescription,
   Switch,
   Badge,
-  Card, 
-  CardHeader, 
-  CardTitle, 
-  CardDescription, 
-  CardContent 
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
 } from "@/components/ui";
-import { Upload, FileText, X, CheckCircle2, AlertCircle, Database, HelpCircle } from "lucide-react";
+import {
+  Upload,
+  FileText,
+  X,
+  CheckCircle2,
+  AlertCircle,
+  Database,
+  HelpCircle,
+} from "lucide-react";
 
 export function CSVUploadForm() {
   const router = useRouter();
@@ -89,14 +97,18 @@ export function CSVUploadForm() {
       const result = await uploadCSVFile(formData);
 
       if (result.success && result.data) {
-        setSuccess(`Successfully uploaded ${result.data.questionCount} questions!`);
+        setSuccess(
+          `Successfully uploaded ${result.data.questionCount} questions!`,
+        );
         clearFile();
         const fileId = result.data.fileId;
         setTimeout(() => {
           router.push(`/files/${fileId}`);
         }, 1500);
       } else {
-        setError(result.error || "Failed to upload file. Check your CSV format.");
+        setError(
+          result.error || "Failed to upload file. Check your CSV format.",
+        );
       }
     } catch (err) {
       setError("An unexpected error occurred during upload.");
@@ -112,11 +124,13 @@ export function CSVUploadForm() {
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           {/* File Drop Zone */}
           <div className="space-y-3">
-            <Label className="text-sm font-bold uppercase tracking-wider text-muted-foreground ml-1">CSV Source File</Label>
+            <Label className="text-sm font-bold uppercase tracking-wider text-muted-foreground ml-1">
+              CSV Source File
+            </Label>
             <div
               className={`relative border-2 border-dashed rounded-2xl p-10 text-center transition-all duration-300 group cursor-pointer ${
-                selectedFile 
-                  ? "bg-primary/5 border-primary shadow-inner" 
+                selectedFile
+                  ? "bg-primary/5 border-primary shadow-inner"
                   : "bg-muted/30 border-muted-foreground/20 hover:border-primary/50 hover:bg-muted/50"
               }`}
               onClick={() => fileInputRef.current?.click()}
@@ -137,7 +151,8 @@ export function CSVUploadForm() {
                   <div className="space-y-1">
                     <p className="font-bold text-lg">{selectedFile.name}</p>
                     <p className="text-xs text-muted-foreground uppercase tracking-widest font-medium">
-                      {(selectedFile.size / 1024).toFixed(2)} KB · Ready to Process
+                      {(selectedFile.size / 1024).toFixed(2)} KB · Ready to
+                      Process
                     </p>
                   </div>
                   <Button
@@ -165,7 +180,12 @@ export function CSVUploadForm() {
                       Click to browse or drag and drop your question file here.
                     </p>
                   </div>
-                  <Badge variant="outline" className="font-mono text-[10px] uppercase tracking-tighter">Only .CSV Files Supported</Badge>
+                  <Badge
+                    variant="outline"
+                    className="font-mono text-[10px] uppercase tracking-tighter"
+                  >
+                    Only .CSV Files Supported
+                  </Badge>
                 </div>
               )}
             </div>
@@ -183,10 +203,10 @@ export function CSVUploadForm() {
                       Collection Name
                     </FormLabel>
                     <FormControl>
-                      <Input 
-                        placeholder="e.g. Physics Final Exam 2024" 
-                        className="h-11 bg-muted/30 border-none focus-visible:ring-1" 
-                        {...field} 
+                      <Input
+                        placeholder="e.g. Physics Final Exam 2024"
+                        className="h-11 bg-muted/30 border-none focus-visible:ring-1"
+                        {...field}
                       />
                     </FormControl>
                     <FormDescription className="text-[10px]">
@@ -227,7 +247,11 @@ export function CSVUploadForm() {
                 <div className="flex items-start gap-3 p-4 bg-primary/5 rounded-xl border border-primary/10">
                   <CheckCircle2 className="h-5 w-5 text-primary shrink-0 mt-0.5" />
                   <p className="text-xs leading-relaxed text-muted-foreground">
-                    <span className="font-bold text-foreground">Validation active:</span> Our engine will verify your CSV structure before final processing to ensure data integrity.
+                    <span className="font-bold text-foreground">
+                      Validation active:
+                    </span>{" "}
+                    Our engine will verify your CSV structure before final
+                    processing to ensure data integrity.
                   </p>
                 </div>
               </div>

@@ -2,12 +2,7 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 // Routes that require authentication
-const protectedRoutes = [
-  "/",
-  "/files",
-  "/questions",
-  "/admin",
-];
+const protectedRoutes = ["/", "/files", "/questions", "/admin"];
 
 // Routes that are only accessible when NOT authenticated
 const authRoutes = ["/login", "/register"];
@@ -22,17 +17,17 @@ export function middleware(request: NextRequest) {
 
   // Check if current route is a protected route
   const isProtectedRoute = protectedRoutes.some(
-    (route) => pathname === route || pathname.startsWith(`${route}/`)
+    (route) => pathname === route || pathname.startsWith(`${route}/`),
   );
 
   // Check if current route is an auth route
   const isAuthRoute = authRoutes.some(
-    (route) => pathname === route || pathname.startsWith(`${route}/`)
+    (route) => pathname === route || pathname.startsWith(`${route}/`),
   );
 
   // Check if current route is an admin route
   const isAdminRoute = adminRoutes.some(
-    (route) => pathname === route || pathname.startsWith(`${route}/`)
+    (route) => pathname === route || pathname.startsWith(`${route}/`),
   );
 
   // Redirect to login if accessing protected route without session

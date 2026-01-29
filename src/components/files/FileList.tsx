@@ -5,8 +5,23 @@ import { useSearchParams, useRouter } from "next/navigation";
 import type { QuestionFile, FileFilters } from "@/types";
 import { getFiles } from "@/lib/actions";
 import { FileCard } from "./FileCard";
-import { EmptyState, LoadingSpinner, Pagination, Input, Button, Tabs, TabsList, TabsTrigger } from "@/components/ui";
-import { Search, SortAsc, SortDesc, Filter, SlidersHorizontal } from "lucide-react";
+import {
+  EmptyState,
+  LoadingSpinner,
+  Pagination,
+  Input,
+  Button,
+  Tabs,
+  TabsList,
+  TabsTrigger,
+} from "@/components/ui";
+import {
+  Search,
+  SortAsc,
+  SortDesc,
+  Filter,
+  SlidersHorizontal,
+} from "lucide-react";
 
 interface FileListProps {
   initialFiles?: QuestionFile[];
@@ -20,11 +35,15 @@ export function FileList({ initialFiles, initialTotal }: FileListProps) {
   const [files, setFiles] = useState<QuestionFile[]>(initialFiles || []);
   const [total, setTotal] = useState(initialTotal || 0);
   const [isLoading, setIsLoading] = useState(!initialFiles);
-  const [searchTerm, setSearchTerm] = useState(searchParams.get("search") || "");
+  const [searchTerm, setSearchTerm] = useState(
+    searchParams.get("search") || "",
+  );
 
   const page = parseInt(searchParams.get("page") || "1");
-  const sortBy = (searchParams.get("sortBy") as FileFilters["sortBy"]) || "uploaded";
-  const sortOrder = (searchParams.get("sortOrder") as FileFilters["sortOrder"]) || "desc";
+  const sortBy =
+    (searchParams.get("sortBy") as FileFilters["sortBy"]) || "uploaded";
+  const sortOrder =
+    (searchParams.get("sortOrder") as FileFilters["sortOrder"]) || "desc";
   const pageSize = 12; // Use a grid-friendly number
 
   useEffect(() => {
@@ -97,25 +116,38 @@ export function FileList({ initialFiles, initialTotal }: FileListProps) {
             <SlidersHorizontal className="h-4 w-4" />
             Sort by:
           </div>
-          <Tabs value={sortBy} onValueChange={(v) => handleSort(v as any)} className="w-full sm:w-auto">
+          <Tabs
+            value={sortBy}
+            onValueChange={(v) => handleSort(v as any)}
+            className="w-full sm:w-auto"
+          >
             <TabsList className="bg-muted/50 p-1 h-11">
               <TabsTrigger value="uploaded" className="px-4 h-9">
                 Date
-                {sortBy === "uploaded" && (
-                  sortOrder === "desc" ? <SortDesc className="h-3 w-3 ml-2" /> : <SortAsc className="h-3 w-3 ml-2" />
-                )}
+                {sortBy === "uploaded" &&
+                  (sortOrder === "desc" ? (
+                    <SortDesc className="h-3 w-3 ml-2" />
+                  ) : (
+                    <SortAsc className="h-3 w-3 ml-2" />
+                  ))}
               </TabsTrigger>
               <TabsTrigger value="name" className="px-4 h-9">
                 Name
-                {sortBy === "name" && (
-                  sortOrder === "desc" ? <SortDesc className="h-3 w-3 ml-2" /> : <SortAsc className="h-3 w-3 ml-2" />
-                )}
+                {sortBy === "name" &&
+                  (sortOrder === "desc" ? (
+                    <SortDesc className="h-3 w-3 ml-2" />
+                  ) : (
+                    <SortAsc className="h-3 w-3 ml-2" />
+                  ))}
               </TabsTrigger>
               <TabsTrigger value="questions" className="px-4 h-9">
                 Questions
-                {sortBy === "questions" && (
-                  sortOrder === "desc" ? <SortDesc className="h-3 w-3 ml-2" /> : <SortAsc className="h-3 w-3 ml-2" />
-                )}
+                {sortBy === "questions" &&
+                  (sortOrder === "desc" ? (
+                    <SortDesc className="h-3 w-3 ml-2" />
+                  ) : (
+                    <SortAsc className="h-3 w-3 ml-2" />
+                  ))}
               </TabsTrigger>
             </TabsList>
           </Tabs>
@@ -133,7 +165,10 @@ export function FileList({ initialFiles, initialTotal }: FileListProps) {
         {isLoading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
             {[...Array(6)].map((_, i) => (
-              <div key={i} className="h-48 bg-muted animate-pulse rounded-2xl" />
+              <div
+                key={i}
+                className="h-48 bg-muted animate-pulse rounded-2xl"
+              />
             ))}
           </div>
         ) : files.length === 0 ? (

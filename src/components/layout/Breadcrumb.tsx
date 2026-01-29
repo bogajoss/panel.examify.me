@@ -13,18 +13,26 @@ interface BreadcrumbProps {
   backHref?: string;
 }
 
-export function Breadcrumb({ items, showBack = false, backHref }: BreadcrumbProps) {
+export function Breadcrumb({
+  items,
+  showBack = false,
+  backHref,
+}: BreadcrumbProps) {
   return (
     <div className="flex flex-col gap-4 mb-6">
       {showBack && (
         <Link href={backHref || "/"} className="inline-flex items-center group">
-          <Button variant="ghost" size="sm" className="h-8 pl-1 pr-3 text-muted-foreground hover:text-primary">
+          <Button
+            variant="ghost"
+            size="sm"
+            className="h-8 pl-1 pr-3 text-muted-foreground hover:text-primary"
+          >
             <ChevronLeft className="w-4 h-4 mr-1 group-hover:-translate-x-1 transition-transform" />
             Back
           </Button>
         </Link>
       )}
-      
+
       <nav className="flex" aria-label="Breadcrumb">
         <ol className="inline-flex items-center space-x-1">
           <li className="inline-flex items-center">

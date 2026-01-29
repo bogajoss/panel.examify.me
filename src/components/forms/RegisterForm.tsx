@@ -8,24 +8,32 @@ import Link from "next/link";
 import { registerSchema, type RegisterFormData } from "@/types";
 import { registerUser } from "@/lib/auth";
 import { useAuth } from "@/context/AuthContext";
-import { 
-  Button, 
-  Input, 
-  Alert, 
+import {
+  Button,
+  Input,
+  Alert,
   Form,
   FormControl,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-  Card, 
-  CardHeader, 
-  CardTitle, 
-  CardDescription, 
-  CardContent, 
-  CardFooter 
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+  CardFooter,
 } from "@/components/ui";
-import { Shield, ArrowRight, User, Lock, Mail, AlertCircle, CheckCircle } from "lucide-react";
+import {
+  Shield,
+  ArrowRight,
+  User,
+  Lock,
+  Mail,
+  AlertCircle,
+  CheckCircle,
+} from "lucide-react";
 
 export function RegisterForm() {
   const router = useRouter();
@@ -88,10 +96,17 @@ export function RegisterForm() {
       </div>
 
       {error && (
-        <Alert variant="destructive" className="animate-in fade-in slide-in-from-top-1 duration-200">
+        <Alert
+          variant="destructive"
+          className="animate-in fade-in slide-in-from-top-1 duration-200"
+        >
           <AlertCircle className="h-4 w-4" />
-          <CardTitle className="text-sm font-semibold ml-2">Registration Error</CardTitle>
-          <CardDescription className="text-xs text-destructive-foreground/80 mt-1">{error}</CardDescription>
+          <CardTitle className="text-sm font-semibold ml-2">
+            Registration Error
+          </CardTitle>
+          <CardDescription className="text-xs text-destructive-foreground/80 mt-1">
+            {error}
+          </CardDescription>
         </Alert>
       )}
 
@@ -103,14 +118,16 @@ export function RegisterForm() {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Full Name</FormLabel>
+                  <FormLabel className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                    Full Name
+                  </FormLabel>
                   <FormControl>
                     <div className="relative">
                       <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                      <Input 
-                        placeholder="John Doe" 
-                        className="pl-10 h-11 bg-muted/30 border-none focus-visible:ring-1" 
-                        {...field} 
+                      <Input
+                        placeholder="John Doe"
+                        className="pl-10 h-11 bg-muted/30 border-none focus-visible:ring-1"
+                        {...field}
                       />
                     </div>
                   </FormControl>
@@ -124,14 +141,16 @@ export function RegisterForm() {
               name="username"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Username</FormLabel>
+                  <FormLabel className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                    Username
+                  </FormLabel>
                   <FormControl>
                     <div className="relative">
                       <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                      <Input 
-                        placeholder="johndoe" 
-                        className="pl-10 h-11 bg-muted/30 border-none focus-visible:ring-1" 
-                        {...field} 
+                      <Input
+                        placeholder="johndoe"
+                        className="pl-10 h-11 bg-muted/30 border-none focus-visible:ring-1"
+                        {...field}
                       />
                     </div>
                   </FormControl>
@@ -147,15 +166,17 @@ export function RegisterForm() {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Password</FormLabel>
+                  <FormLabel className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                    Password
+                  </FormLabel>
                   <FormControl>
                     <div className="relative">
                       <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                      <Input 
-                        type="password" 
-                        placeholder="••••••••" 
-                        className="pl-10 h-11 bg-muted/30 border-none focus-visible:ring-1" 
-                        {...field} 
+                      <Input
+                        type="password"
+                        placeholder="••••••••"
+                        className="pl-10 h-11 bg-muted/30 border-none focus-visible:ring-1"
+                        {...field}
                       />
                     </div>
                   </FormControl>
@@ -169,15 +190,17 @@ export function RegisterForm() {
               name="confirmPassword"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Confirm</FormLabel>
+                  <FormLabel className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                    Confirm
+                  </FormLabel>
                   <FormControl>
                     <div className="relative">
                       <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                      <Input 
-                        type="password" 
-                        placeholder="••••••••" 
-                        className="pl-10 h-11 bg-muted/30 border-none focus-visible:ring-1" 
-                        {...field} 
+                      <Input
+                        type="password"
+                        placeholder="••••••••"
+                        className="pl-10 h-11 bg-muted/30 border-none focus-visible:ring-1"
+                        {...field}
                       />
                     </div>
                   </FormControl>
@@ -210,7 +233,10 @@ export function RegisterForm() {
       <div className="text-center">
         <p className="text-sm text-muted-foreground">
           Already have an account?{" "}
-          <Link href="/login" className="text-primary font-bold hover:underline">
+          <Link
+            href="/login"
+            className="text-primary font-bold hover:underline"
+          >
             Login here
           </Link>
         </p>

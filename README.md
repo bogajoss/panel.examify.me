@@ -32,12 +32,14 @@ A modern question bank management system built with Next.js 16, TypeScript, Tail
 ### Installation
 
 1. Clone the repository:
+
 ```bash
 git clone <repository-url>
 cd my-app
 ```
 
 2. Install dependencies:
+
 ```bash
 pnpm install
 ```
@@ -46,6 +48,7 @@ pnpm install
    - Follow the instructions in [APPWRITE_SETUP.md](./APPWRITE_SETUP.md)
 
 4. Create environment variables:
+
 ```bash
 cp .env.local.example .env.local
 ```
@@ -53,6 +56,7 @@ cp .env.local.example .env.local
 5. Update `.env.local` with your Appwrite credentials.
 
 6. Run the development server:
+
 ```bash
 pnpm dev
 ```
@@ -109,14 +113,14 @@ pnpm lint
 
 Upload CSV files with these columns:
 
-| Column | Description | Required |
-|--------|-------------|----------|
-| questions | Question text (HTML) | Yes |
-| option1-5 | Answer options | No |
-| answer | Correct answer (1-5) | No |
-| explanation | Explanation (HTML) | No |
-| type | Question type (int) | No |
-| section | Section code | No |
+| Column      | Description          | Required |
+| ----------- | -------------------- | -------- |
+| questions   | Question text (HTML) | Yes      |
+| option1-5   | Answer options       | No       |
+| answer      | Correct answer (1-5) | No       |
+| explanation | Explanation (HTML)   | No       |
+| type        | Question type (int)  | No       |
+| section     | Section code         | No       |
 
 ### Section Codes
 
@@ -129,13 +133,13 @@ Upload CSV files with these columns:
 
 ## Environment Variables
 
-| Variable | Description |
-|----------|-------------|
-| `NEXT_PUBLIC_APPWRITE_ENDPOINT` | Appwrite API endpoint |
-| `NEXT_PUBLIC_APPWRITE_PROJECT_ID` | Appwrite project ID |
-| `NEXT_PUBLIC_APPWRITE_DATABASE_ID` | Database ID |
-| `NEXT_PUBLIC_APPWRITE_*_COLLECTION_ID` | Collection IDs |
-| `NEXT_PUBLIC_APPWRITE_*_BUCKET_ID` | Storage bucket IDs |
+| Variable                               | Description           |
+| -------------------------------------- | --------------------- |
+| `NEXT_PUBLIC_APPWRITE_ENDPOINT`        | Appwrite API endpoint |
+| `NEXT_PUBLIC_APPWRITE_PROJECT_ID`      | Appwrite project ID   |
+| `NEXT_PUBLIC_APPWRITE_DATABASE_ID`     | Database ID           |
+| `NEXT_PUBLIC_APPWRITE_*_COLLECTION_ID` | Collection IDs        |
+| `NEXT_PUBLIC_APPWRITE_*_BUCKET_ID`     | Storage bucket IDs    |
 
 ## License
 

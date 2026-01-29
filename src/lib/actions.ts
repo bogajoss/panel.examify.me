@@ -25,7 +25,7 @@ import Papa from "papaparse";
 // ============================================================================
 
 export async function getFiles(
-  filters: FileFilters = {}
+  filters: FileFilters = {},
 ): Promise<ActionResponse<PaginatedResponse<QuestionFile>>> {
   try {
     await requireAuth();
@@ -52,21 +52,21 @@ export async function getFiles(
         queries.push(
           sortOrder === "asc"
             ? Query.orderAsc("displayName")
-            : Query.orderDesc("displayName")
+            : Query.orderDesc("displayName"),
         );
         break;
       case "questions":
         queries.push(
           sortOrder === "asc"
             ? Query.orderAsc("totalQuestions")
-            : Query.orderDesc("totalQuestions")
+            : Query.orderDesc("totalQuestions"),
         );
         break;
       default:
         queries.push(
           sortOrder === "asc"
             ? Query.orderAsc("uploadedAt")
-            : Query.orderDesc("uploadedAt")
+            : Query.orderDesc("uploadedAt"),
         );
     }
 
@@ -78,7 +78,7 @@ export async function getFiles(
     const response = await databases.listDocuments(
       appwriteConfig.databaseId,
       appwriteConfig.collections.files,
-      queries
+      queries,
     );
 
     return {
@@ -98,7 +98,7 @@ export async function getFiles(
 }
 
 export async function getFileById(
-  fileId: string
+  fileId: string,
 ): Promise<ActionResponse<QuestionFile>> {
   try {
     await requireAuth();
@@ -108,7 +108,7 @@ export async function getFileById(
     const file = await databases.getDocument(
       appwriteConfig.databaseId,
       appwriteConfig.collections.files,
-      fileId
+      fileId,
     );
 
     return { success: true, data: file as unknown as QuestionFile };
@@ -121,7 +121,7 @@ export async function getFileById(
 export async function createFile(
   originalFilename: string,
   displayName: string,
-  storageFileId?: string
+  storageFileId?: string,
 ): Promise<ActionResponse<QuestionFile>> {
   try {
     const { user } = await requireAdmin();
@@ -139,20 +139,21 @@ export async function createFile(
         totalQuestions: 0,
         uploadedBy: user.userId,
         uploadedAt: new Date().toISOString(),
-      }
+      },
     );
 
     return { success: true, data: file as unknown as QuestionFile };
   } catch (error) {
     console.error("Create file error:", error);
-    const message = error instanceof Error ? error.message : "Failed to create file";
+    const message =
+      error instanceof Error ? error.message : "Failed to create file";
     return { success: false, error: message };
   }
 }
 
 export async function updateFile(
   fileId: string,
-  data: { displayName?: string; totalQuestions?: number }
+  data: { displayName?: string; totalQuestions?: number },
 ): Promise<ActionResponse<QuestionFile>> {
   try {
     await requireAdmin();
@@ -163,20 +164,19 @@ export async function updateFile(
       appwriteConfig.databaseId,
       appwriteConfig.collections.files,
       fileId,
-      data
+      data,
     );
 
     return { success: true, data: file as unknown as QuestionFile };
   } catch (error) {
     console.error("Update file error:", error);
-    const message = error instanceof Error ? error.message : "Failed to update file";
+    const message =
+      error instanceof Error ? error.message : "Failed to update file";
     return { success: false, error: message };
   }
 }
 
-export async function deleteFile(
-  fileId: string
-): Promise<ActionResponse> {
+export async function deleteFile(fileId: string): Promise<ActionResponse> {
   try {
     await requireAdmin();
 
@@ -184,11 +184,11 @@ export async function deleteFile(
     const storage = await getStorage();
 
     // Get file to check for storage file
-    const file = await databases.getDocument(
+    const file = (await databases.getDocument(
       appwriteConfig.databaseId,
       appwriteConfig.collections.files,
-      fileId
-    ) as unknown as QuestionFile;
+      fileId,
+    )) as unknown as QuestionFile;
 
     // Delete all questions for this file
     let hasMore = true;
@@ -196,7 +196,7 @@ export async function deleteFile(
       const questions = await databases.listDocuments(
         appwriteConfig.databaseId,
         appwriteConfig.collections.questions,
-        [Query.equal("fileId", fileId), Query.limit(100)]
+        [Query.equal("fileId", fileId), Query.limit(100)],
       );
 
       for (const q of questions.documents) {
@@ -206,7 +206,7 @@ export async function deleteFile(
           try {
             await storage.deleteFile(
               appwriteConfig.buckets.questionImages,
-              question.questionImageId
+              question.questionImageId,
             );
           } catch (e) {
             console.error("Error deleting question image:", e);
@@ -216,7 +216,7 @@ export async function deleteFile(
           try {
             await storage.deleteFile(
               appwriteConfig.buckets.questionImages,
-              question.explanationImageId
+              question.explanationImageId,
             );
           } catch (e) {
             console.error("Error deleting explanation image:", e);
@@ -226,7 +226,7 @@ export async function deleteFile(
         await databases.deleteDocument(
           appwriteConfig.databaseId,
           appwriteConfig.collections.questions,
-          q.$id
+          q.$id,
         );
       }
 
@@ -238,7 +238,7 @@ export async function deleteFile(
       try {
         await storage.deleteFile(
           appwriteConfig.buckets.sourceFiles,
-          file.storageFileId
+          file.storageFileId,
         );
       } catch (e) {
         console.error("Error deleting source file:", e);
@@ -249,13 +249,14 @@ export async function deleteFile(
     await databases.deleteDocument(
       appwriteConfig.databaseId,
       appwriteConfig.collections.files,
-      fileId
+      fileId,
     );
 
     return { success: true };
   } catch (error) {
     console.error("Delete file error:", error);
-    const message = error instanceof Error ? error.message : "Failed to delete file";
+    const message =
+      error instanceof Error ? error.message : "Failed to delete file";
     return { success: false, error: message };
   }
 }
@@ -265,20 +266,13 @@ export async function deleteFile(
 // ============================================================================
 
 export async function getQuestions(
-  filters: QuestionFilters = {}
+  filters: QuestionFilters = {},
 ): Promise<ActionResponse<PaginatedResponse<Question>>> {
   try {
     await requireAuth();
 
     const databases = await getDatabases();
-    const {
-      fileId,
-      section,
-      type,
-      search,
-      page = 1,
-      pageSize = 25,
-    } = filters;
+    const { fileId, section, type, search, page = 1, pageSize = 25 } = filters;
 
     const queries: string[] = [];
 
@@ -309,7 +303,7 @@ export async function getQuestions(
     const response = await databases.listDocuments(
       appwriteConfig.databaseId,
       appwriteConfig.collections.questions,
-      queries
+      queries,
     );
 
     return {
@@ -329,7 +323,7 @@ export async function getQuestions(
 }
 
 export async function getQuestionById(
-  questionId: string
+  questionId: string,
 ): Promise<ActionResponse<Question>> {
   try {
     await requireAuth();
@@ -339,7 +333,7 @@ export async function getQuestionById(
     const question = await databases.getDocument(
       appwriteConfig.databaseId,
       appwriteConfig.collections.questions,
-      questionId
+      questionId,
     );
 
     return { success: true, data: question as unknown as Question };
@@ -351,7 +345,7 @@ export async function getQuestionById(
 
 export async function createQuestion(
   fileId: string,
-  data: Omit<Question, "$id" | "$createdAt" | "$updatedAt" | "fileId">
+  data: Omit<Question, "$id" | "$createdAt" | "$updatedAt" | "fileId">,
 ): Promise<ActionResponse<Question>> {
   try {
     await requireAdmin();
@@ -365,15 +359,15 @@ export async function createQuestion(
       {
         fileId,
         ...data,
-      }
+      },
     );
 
     // Update file question count
-    const file = await databases.getDocument(
+    const file = (await databases.getDocument(
       appwriteConfig.databaseId,
       appwriteConfig.collections.files,
-      fileId
-    ) as unknown as QuestionFile;
+      fileId,
+    )) as unknown as QuestionFile;
 
     await databases.updateDocument(
       appwriteConfig.databaseId,
@@ -381,20 +375,21 @@ export async function createQuestion(
       fileId,
       {
         totalQuestions: file.totalQuestions + 1,
-      }
+      },
     );
 
     return { success: true, data: question as unknown as Question };
   } catch (error) {
     console.error("Create question error:", error);
-    const message = error instanceof Error ? error.message : "Failed to create question";
+    const message =
+      error instanceof Error ? error.message : "Failed to create question";
     return { success: false, error: message };
   }
 }
 
 export async function updateQuestion(
   questionId: string,
-  data: Partial<Omit<Question, "$id" | "$createdAt" | "$updatedAt">>
+  data: Partial<Omit<Question, "$id" | "$createdAt" | "$updatedAt">>,
 ): Promise<ActionResponse<Question>> {
   try {
     await requireAdmin();
@@ -405,19 +400,20 @@ export async function updateQuestion(
       appwriteConfig.databaseId,
       appwriteConfig.collections.questions,
       questionId,
-      data
+      data,
     );
 
     return { success: true, data: question as unknown as Question };
   } catch (error) {
     console.error("Update question error:", error);
-    const message = error instanceof Error ? error.message : "Failed to update question";
+    const message =
+      error instanceof Error ? error.message : "Failed to update question";
     return { success: false, error: message };
   }
 }
 
 export async function deleteQuestion(
-  questionId: string
+  questionId: string,
 ): Promise<ActionResponse> {
   try {
     await requireAdmin();
@@ -426,11 +422,11 @@ export async function deleteQuestion(
     const storage = await getStorage();
 
     // Get the question first
-    const question = await databases.getDocument(
+    const question = (await databases.getDocument(
       appwriteConfig.databaseId,
       appwriteConfig.collections.questions,
-      questionId
-    ) as unknown as Question;
+      questionId,
+    )) as unknown as Question;
 
     const fileId = question.fileId;
 
@@ -439,7 +435,7 @@ export async function deleteQuestion(
       try {
         await storage.deleteFile(
           appwriteConfig.buckets.questionImages,
-          question.questionImageId
+          question.questionImageId,
         );
       } catch (e) {
         console.error("Error deleting question image:", e);
@@ -449,7 +445,7 @@ export async function deleteQuestion(
       try {
         await storage.deleteFile(
           appwriteConfig.buckets.questionImages,
-          question.explanationImageId
+          question.explanationImageId,
         );
       } catch (e) {
         console.error("Error deleting explanation image:", e);
@@ -460,15 +456,15 @@ export async function deleteQuestion(
     await databases.deleteDocument(
       appwriteConfig.databaseId,
       appwriteConfig.collections.questions,
-      questionId
+      questionId,
     );
 
     // Update file question count
-    const file = await databases.getDocument(
+    const file = (await databases.getDocument(
       appwriteConfig.databaseId,
       appwriteConfig.collections.files,
-      fileId
-    ) as unknown as QuestionFile;
+      fileId,
+    )) as unknown as QuestionFile;
 
     await databases.updateDocument(
       appwriteConfig.databaseId,
@@ -476,20 +472,21 @@ export async function deleteQuestion(
       fileId,
       {
         totalQuestions: Math.max(0, file.totalQuestions - 1),
-      }
+      },
     );
 
     return { success: true };
   } catch (error) {
     console.error("Delete question error:", error);
-    const message = error instanceof Error ? error.message : "Failed to delete question";
+    const message =
+      error instanceof Error ? error.message : "Failed to delete question";
     return { success: false, error: message };
   }
 }
 
 export async function reorderQuestions(
   fileId: string,
-  questionIds: string[]
+  questionIds: string[],
 ): Promise<ActionResponse> {
   try {
     await requireAdmin();
@@ -502,14 +499,15 @@ export async function reorderQuestions(
         appwriteConfig.databaseId,
         appwriteConfig.collections.questions,
         questionIds[i],
-        { orderIndex: i }
+        { orderIndex: i },
       );
     }
 
     return { success: true };
   } catch (error) {
     console.error("Reorder questions error:", error);
-    const message = error instanceof Error ? error.message : "Failed to reorder questions";
+    const message =
+      error instanceof Error ? error.message : "Failed to reorder questions";
     return { success: false, error: message };
   }
 }
@@ -535,7 +533,7 @@ interface CSVRow {
 
 export async function parseCSVContent(
   csvContent: string,
-  convertZeroIndexed: boolean = false
+  convertZeroIndexed: boolean = false,
 ): Promise<ParsedQuestionRow[]> {
   return new Promise((resolve, reject) => {
     const questions: ParsedQuestionRow[] = [];
@@ -593,7 +591,7 @@ export async function parseCSVContent(
 }
 
 export async function uploadCSVFile(
-  formData: FormData
+  formData: FormData,
 ): Promise<ActionResponse<{ fileId: string; questionCount: number }>> {
   try {
     const { user } = await requireAdmin();
@@ -629,7 +627,7 @@ export async function uploadCSVFile(
       const uploadedFile = await storage.createFile(
         appwriteConfig.buckets.sourceFiles,
         ID.unique(),
-        file
+        file,
       );
       storageFileId = uploadedFile.$id;
     } catch (e) {
@@ -648,7 +646,7 @@ export async function uploadCSVFile(
         totalQuestions: questions.length,
         uploadedBy: user.userId,
         uploadedAt: new Date().toISOString(),
-      }
+      },
     );
 
     // Create questions
@@ -671,7 +669,7 @@ export async function uploadCSVFile(
           type: q.type,
           section: q.section,
           orderIndex: i,
-        }
+        },
       );
     }
 
@@ -684,14 +682,15 @@ export async function uploadCSVFile(
     };
   } catch (error) {
     console.error("Upload CSV error:", error);
-    const message = error instanceof Error ? error.message : "Failed to upload CSV";
+    const message =
+      error instanceof Error ? error.message : "Failed to upload CSV";
     return { success: false, error: message };
   }
 }
 
 export async function mergeCSVFile(
   fileId: string,
-  formData: FormData
+  formData: FormData,
 ): Promise<ActionResponse<{ questionCount: number }>> {
   try {
     await requireAdmin();
@@ -713,12 +712,17 @@ export async function mergeCSVFile(
     const existingQuestions = await databases.listDocuments(
       appwriteConfig.databaseId,
       appwriteConfig.collections.questions,
-      [Query.equal("fileId", fileId), Query.orderDesc("orderIndex"), Query.limit(1)]
+      [
+        Query.equal("fileId", fileId),
+        Query.orderDesc("orderIndex"),
+        Query.limit(1),
+      ],
     );
 
-    const maxOrderIndex = existingQuestions.documents.length > 0
-      ? (existingQuestions.documents[0] as unknown as Question).orderIndex
-      : -1;
+    const maxOrderIndex =
+      existingQuestions.documents.length > 0
+        ? (existingQuestions.documents[0] as unknown as Question).orderIndex
+        : -1;
 
     // Read and parse CSV
     const csvContent = await file.text();
@@ -748,16 +752,16 @@ export async function mergeCSVFile(
           type: q.type,
           section: q.section,
           orderIndex: maxOrderIndex + 1 + i,
-        }
+        },
       );
     }
 
     // Update file question count
-    const fileDoc = await databases.getDocument(
+    const fileDoc = (await databases.getDocument(
       appwriteConfig.databaseId,
       appwriteConfig.collections.files,
-      fileId
-    ) as unknown as QuestionFile;
+      fileId,
+    )) as unknown as QuestionFile;
 
     await databases.updateDocument(
       appwriteConfig.databaseId,
@@ -765,7 +769,7 @@ export async function mergeCSVFile(
       fileId,
       {
         totalQuestions: fileDoc.totalQuestions + questions.length,
-      }
+      },
     );
 
     return {
@@ -776,7 +780,8 @@ export async function mergeCSVFile(
     };
   } catch (error) {
     console.error("Merge CSV error:", error);
-    const message = error instanceof Error ? error.message : "Failed to merge CSV";
+    const message =
+      error instanceof Error ? error.message : "Failed to merge CSV";
     return { success: false, error: message };
   }
 }
@@ -786,7 +791,7 @@ export async function mergeCSVFile(
 // ============================================================================
 
 export async function uploadQuestionImage(
-  formData: FormData
+  formData: FormData,
 ): Promise<ActionResponse<{ fileId: string; url: string }>> {
   try {
     await requireAdmin();
@@ -801,7 +806,10 @@ export async function uploadQuestionImage(
 
     const allowedTypes = ["image/jpeg", "image/png", "image/gif", "image/webp"];
     if (!allowedTypes.includes(file.type)) {
-      return { success: false, error: "Invalid file type. Only JPG, PNG, GIF, and WebP are allowed." };
+      return {
+        success: false,
+        error: "Invalid file type. Only JPG, PNG, GIF, and WebP are allowed.",
+      };
     }
 
     const maxSize = 5 * 1024 * 1024; // 5MB
@@ -812,7 +820,7 @@ export async function uploadQuestionImage(
     const uploadedFile = await storage.createFile(
       appwriteConfig.buckets.questionImages,
       ID.unique(),
-      file
+      file,
     );
 
     const url = getImageUrl(uploadedFile.$id);
@@ -826,28 +834,27 @@ export async function uploadQuestionImage(
     };
   } catch (error) {
     console.error("Upload image error:", error);
-    const message = error instanceof Error ? error.message : "Failed to upload image";
+    const message =
+      error instanceof Error ? error.message : "Failed to upload image";
     return { success: false, error: message };
   }
 }
 
 export async function deleteQuestionImage(
-  imageId: string
+  imageId: string,
 ): Promise<ActionResponse> {
   try {
     await requireAdmin();
 
     const storage = await getStorage();
 
-    await storage.deleteFile(
-      appwriteConfig.buckets.questionImages,
-      imageId
-    );
+    await storage.deleteFile(appwriteConfig.buckets.questionImages, imageId);
 
     return { success: true };
   } catch (error) {
     console.error("Delete image error:", error);
-    const message = error instanceof Error ? error.message : "Failed to delete image";
+    const message =
+      error instanceof Error ? error.message : "Failed to delete image";
     return { success: false, error: message };
   }
 }

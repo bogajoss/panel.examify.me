@@ -2,11 +2,11 @@ import Link from "next/link";
 import { requireAdmin } from "@/lib/auth";
 import { getFiles, getQuestions } from "@/lib/actions";
 import { Breadcrumb } from "@/components/layout";
-import { 
-  Card, 
-  CardHeader, 
-  CardTitle, 
-  CardContent, 
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardContent,
   CardDescription,
   Button,
   Badge,
@@ -18,7 +18,17 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui";
-import { Upload, Files, FileQuestion, Users, Settings, Shield, ChevronRight, Info, CheckCircle2 } from "lucide-react";
+import {
+  Upload,
+  Files,
+  FileQuestion,
+  Users,
+  Settings,
+  Shield,
+  ChevronRight,
+  Info,
+  CheckCircle2,
+} from "lucide-react";
 import type { Metadata } from "next";
 
 export const dynamic = "force-dynamic";
@@ -35,7 +45,9 @@ export default async function AdminPage() {
   const questionsResult = await getQuestions({ pageSize: 1 });
 
   const totalFiles = filesResult.success ? filesResult.data?.total || 0 : 0;
-  const totalQuestions = questionsResult.success ? questionsResult.data?.total || 0 : 0;
+  const totalQuestions = questionsResult.success
+    ? questionsResult.data?.total || 0
+    : 0;
 
   return (
     <div className="space-y-10 pb-20">
@@ -45,10 +57,16 @@ export default async function AdminPage() {
         <div className="space-y-1">
           <div className="flex items-center gap-2 mb-2">
             <Shield className="h-5 w-5 text-primary" />
-            <span className="text-xs font-bold uppercase tracking-[0.2em] text-muted-foreground">Internal Access Only</span>
+            <span className="text-xs font-bold uppercase tracking-[0.2em] text-muted-foreground">
+              Internal Access Only
+            </span>
           </div>
-          <h1 className="text-4xl font-extrabold tracking-tight">Admin Dashboard</h1>
-          <p className="text-xl text-muted-foreground">Comprehensive system management and data oversight.</p>
+          <h1 className="text-4xl font-extrabold tracking-tight">
+            Admin Dashboard
+          </h1>
+          <p className="text-xl text-muted-foreground">
+            Comprehensive system management and data oversight.
+          </p>
         </div>
       </div>
 
@@ -61,7 +79,9 @@ export default async function AdminPage() {
                 <Files className="h-6 w-6 text-blue-600" />
               </div>
               <div>
-                <p className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">Total Files</p>
+                <p className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">
+                  Total Files
+                </p>
                 <p className="text-3xl font-bold">{totalFiles}</p>
               </div>
             </div>
@@ -75,7 +95,9 @@ export default async function AdminPage() {
                 <FileQuestion className="h-6 w-6 text-emerald-600" />
               </div>
               <div>
-                <p className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">Total Questions</p>
+                <p className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">
+                  Total Questions
+                </p>
                 <p className="text-3xl font-bold">{totalQuestions}</p>
               </div>
             </div>
@@ -89,8 +111,12 @@ export default async function AdminPage() {
                 <Users className="h-6 w-6 text-violet-600" />
               </div>
               <div>
-                <p className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">Active Admin</p>
-                <p className="text-lg font-bold truncate max-w-[150px]">{user.name.split(" ")[0]}</p>
+                <p className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">
+                  Active Admin
+                </p>
+                <p className="text-lg font-bold truncate max-w-[150px]">
+                  {user.name.split(" ")[0]}
+                </p>
               </div>
             </div>
           </CardContent>
@@ -115,7 +141,9 @@ export default async function AdminPage() {
                     </div>
                     <div>
                       <p className="font-bold">Batch Upload</p>
-                      <p className="text-xs text-muted-foreground mt-1">Ingest questions via CSV</p>
+                      <p className="text-xs text-muted-foreground mt-1">
+                        Ingest questions via CSV
+                      </p>
                     </div>
                   </CardContent>
                 </Card>
@@ -130,7 +158,9 @@ export default async function AdminPage() {
                     </div>
                     <div>
                       <p className="font-bold">Collections</p>
-                      <p className="text-xs text-muted-foreground mt-1">Audit and update files</p>
+                      <p className="text-xs text-muted-foreground mt-1">
+                        Audit and update files
+                      </p>
                     </div>
                   </CardContent>
                 </Card>
@@ -145,7 +175,9 @@ export default async function AdminPage() {
                     </div>
                     <div>
                       <p className="font-bold">Global Search</p>
-                      <p className="text-xs text-muted-foreground mt-1">Cross-file question edit</p>
+                      <p className="text-xs text-muted-foreground mt-1">
+                        Cross-file question edit
+                      </p>
                     </div>
                   </CardContent>
                 </Card>
@@ -160,7 +192,9 @@ export default async function AdminPage() {
                 <Info className="h-5 w-5 text-primary" />
                 Standard Data Schema
               </CardTitle>
-              <CardDescription>Protocol for CSV question ingestion.</CardDescription>
+              <CardDescription>
+                Protocol for CSV question ingestion.
+              </CardDescription>
             </CardHeader>
             <CardContent className="p-0">
               <Table>
@@ -173,17 +207,46 @@ export default async function AdminPage() {
                 </TableHeader>
                 <TableBody>
                   {[
-                    { field: "questions", def: "Core question text body. HTML tags are fully supported.", req: "Required" },
-                    { field: "option1-5", def: "Choice payloads. Support plain text and HTML enrichment.", req: "Optional" },
-                    { field: "answer", def: "Identifier for correct choice. Standard: 1-5 or A-E mapping.", req: "Optional" },
-                    { field: "explanation", def: "Detailed rationale for the correct answer.", req: "Optional" },
-                    { field: "section", def: "Mapping code (e.g., p=Physics, c=Chemistry).", req: "Optional" },
+                    {
+                      field: "questions",
+                      def: "Core question text body. HTML tags are fully supported.",
+                      req: "Required",
+                    },
+                    {
+                      field: "option1-5",
+                      def: "Choice payloads. Support plain text and HTML enrichment.",
+                      req: "Optional",
+                    },
+                    {
+                      field: "answer",
+                      def: "Identifier for correct choice. Standard: 1-5 or A-E mapping.",
+                      req: "Optional",
+                    },
+                    {
+                      field: "explanation",
+                      def: "Detailed rationale for the correct answer.",
+                      req: "Optional",
+                    },
+                    {
+                      field: "section",
+                      def: "Mapping code (e.g., p=Physics, c=Chemistry).",
+                      req: "Optional",
+                    },
                   ].map((row) => (
                     <TableRow key={row.field}>
-                      <TableCell className="font-mono text-xs font-bold text-primary pl-6">{row.field}</TableCell>
-                      <TableCell className="text-sm text-muted-foreground">{row.def}</TableCell>
+                      <TableCell className="font-mono text-xs font-bold text-primary pl-6">
+                        {row.field}
+                      </TableCell>
+                      <TableCell className="text-sm text-muted-foreground">
+                        {row.def}
+                      </TableCell>
                       <TableCell className="text-right pr-6">
-                        <Badge variant={row.req === "Required" ? "default" : "secondary"} className="text-[10px] uppercase">
+                        <Badge
+                          variant={
+                            row.req === "Required" ? "default" : "secondary"
+                          }
+                          className="text-[10px] uppercase"
+                        >
                           {row.req}
                         </Badge>
                       </TableCell>
@@ -203,7 +266,9 @@ export default async function AdminPage() {
             </div>
             <CardHeader>
               <CardTitle className="text-lg">Compliance & Security</CardTitle>
-              <CardDescription className="text-primary-foreground/70">System-wide integrity checks are enabled.</CardDescription>
+              <CardDescription className="text-primary-foreground/70">
+                System-wide integrity checks are enabled.
+              </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex items-start gap-3 text-sm">
@@ -223,7 +288,9 @@ export default async function AdminPage() {
             </CardHeader>
             <CardContent className="text-sm space-y-2 text-muted-foreground">
               <p>For system issues, contact the technical lead.</p>
-              <p className="font-mono text-xs mt-4 uppercase tracking-tighter">Instance: ANTI-G-29JAN26</p>
+              <p className="font-mono text-xs mt-4 uppercase tracking-tighter">
+                Instance: ANTI-G-29JAN26
+              </p>
             </CardContent>
           </Card>
         </div>

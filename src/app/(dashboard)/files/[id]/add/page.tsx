@@ -13,7 +13,9 @@ export const metadata: Metadata = {
   title: "Add Question | AntiGravity Question Bank",
 };
 
-export default async function AddQuestionPage({ params }: AddQuestionPageProps) {
+export default async function AddQuestionPage({
+  params,
+}: AddQuestionPageProps) {
   await requireAdmin();
 
   const { id } = await params;
@@ -30,7 +32,10 @@ export default async function AddQuestionPage({ params }: AddQuestionPageProps) 
       <Breadcrumb
         items={[
           { label: "Files", href: "/files" },
-          { label: file.displayName || file.originalFilename, href: `/files/${id}` },
+          {
+            label: file.displayName || file.originalFilename,
+            href: `/files/${id}`,
+          },
           { label: "Add Question" },
         ]}
       />

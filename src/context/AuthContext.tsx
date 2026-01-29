@@ -1,6 +1,12 @@
 "use client";
 
-import React, { createContext, useContext, useEffect, useState, useCallback } from "react";
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  useCallback,
+} from "react";
 import { useRouter } from "next/navigation";
 import type { SessionUser } from "@/lib/auth";
 import { getSession, logoutUser } from "@/lib/auth";
@@ -25,7 +31,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     try {
       setIsLoading(true);
       const session = await getSession();
-      
+
       if (session) {
         setUser(session);
       } else {

@@ -46,6 +46,7 @@ For the `role` enum, add values: `admin`, `user`
 | userId_unique | Unique | userId |
 
 **Permissions:**
+
 - Read: `any` (or `users` for authenticated only)
 - Create: `users`
 - Update: `users`
@@ -73,6 +74,7 @@ For the `role` enum, add values: `admin`, `user`
 | displayName_search | Fulltext | displayName | - |
 
 **Permissions:**
+
 - Read: `any` (or `users` for authenticated only)
 - Create: `users`
 - Update: `users`
@@ -111,6 +113,7 @@ For the `role` enum, add values: `admin`, `user`
 | questionText_search | Fulltext | questionText | - |
 
 **Permissions:**
+
 - Read: `any` (or `users` for authenticated only)
 - Create: `users`
 - Update: `users`
@@ -129,6 +132,7 @@ For the `role` enum, add values: `admin`, `user`
 7. Antivirus: Enabled (if available)
 
 **Permissions:**
+
 - Read: `any`
 - Create: `users`
 - Update: `users`
@@ -143,6 +147,7 @@ For the `role` enum, add values: `admin`, `user`
 5. Maximum file size: `10000000` (10MB)
 
 **Permissions:**
+
 - Read: `users`
 - Create: `users`
 - Update: `users`
@@ -211,10 +216,11 @@ APPWRITE_API_KEY=your-api-key
 ### Permission Examples (More Secure):
 
 For admin-only write operations:
+
 ```
 Read: any
 Create: team:admins
-Update: team:admins  
+Update: team:admins
 Delete: team:admins
 ```
 
@@ -230,26 +236,27 @@ Delete: team:admins
 ### Debug Mode:
 
 Enable debug logging by adding to your API calls:
+
 ```typescript
-console.log('Appwrite Config:', appwriteConfig);
+console.log("Appwrite Config:", appwriteConfig);
 ```
 
 ## CSV Format
 
 The application expects CSV files with these columns:
 
-| Column | Description | Required |
-|--------|-------------|----------|
-| questions | Question text (HTML allowed) | Yes |
-| option1 | First option | No |
-| option2 | Second option | No |
-| option3 | Third option | No |
-| option4 | Fourth option | No |
-| option5 | Fifth option | No |
-| answer | Correct answer (1-5 or A-E) | No |
-| explanation | Explanation text (HTML allowed) | No |
-| type | Question type (integer) | No |
-| section | Section code (p, c, m, b, etc.) | No |
+| Column      | Description                     | Required |
+| ----------- | ------------------------------- | -------- |
+| questions   | Question text (HTML allowed)    | Yes      |
+| option1     | First option                    | No       |
+| option2     | Second option                   | No       |
+| option3     | Third option                    | No       |
+| option4     | Fourth option                   | No       |
+| option5     | Fifth option                    | No       |
+| answer      | Correct answer (1-5 or A-E)     | No       |
+| explanation | Explanation text (HTML allowed) | No       |
+| type        | Question type (integer)         | No       |
+| section     | Section code (p, c, m, b, etc.) | No       |
 
 ### Section Codes:
 

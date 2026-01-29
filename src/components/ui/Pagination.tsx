@@ -63,7 +63,10 @@ export function Pagination({
   };
 
   return (
-    <nav className="flex items-center justify-center gap-1" aria-label="Pagination">
+    <nav
+      className="flex items-center justify-center gap-1"
+      aria-label="Pagination"
+    >
       <Button
         variant="outline"
         size="icon"
@@ -91,7 +94,7 @@ export function Pagination({
             >
               {page}
             </Button>
-          )
+          ),
         )}
 
       <Button

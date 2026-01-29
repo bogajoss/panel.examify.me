@@ -8,12 +8,12 @@ import { deleteQuestion } from "@/lib/actions";
 import { getImageUrl } from "@/lib/utils";
 import { useAuth } from "@/context/AuthContext";
 import { answerToLetter, SECTION_LABELS, type SectionTypeValue } from "@/types";
-import { 
-  Button, 
-  Card, 
-  CardHeader, 
-  CardTitle, 
-  CardContent, 
+import {
+  Button,
+  Card,
+  CardHeader,
+  CardTitle,
+  CardContent,
   CardFooter,
   Badge,
   DropdownMenu,
@@ -28,18 +28,18 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  Separator
+  Separator,
 } from "@/components/ui";
-import { 
-  Edit2, 
-  Trash2, 
-  ChevronDown, 
-  ChevronUp, 
+import {
+  Edit2,
+  Trash2,
+  ChevronDown,
+  ChevronUp,
   Image as ImageIcon,
   MoreVertical,
   CheckCircle2,
   Info,
-  ExternalLink
+  ExternalLink,
 } from "lucide-react";
 
 interface QuestionCardProps {
@@ -81,7 +81,8 @@ export function QuestionCard({ question, index, onDelete }: QuestionCardProps) {
   ].filter((opt) => opt.value);
 
   const answerLetter = answerToLetter(question.answer);
-  const sectionLabel = SECTION_LABELS[question.section as SectionTypeValue] || question.section;
+  const sectionLabel =
+    SECTION_LABELS[question.section as SectionTypeValue] || question.section;
 
   return (
     <>
@@ -93,11 +94,17 @@ export function QuestionCard({ question, index, onDelete }: QuestionCardProps) {
               {index + 1}
             </span>
             <div className="flex flex-row md:flex-col gap-2">
-              <Badge variant="outline" className="bg-background/50 backdrop-blur-sm h-6 px-2">
+              <Badge
+                variant="outline"
+                className="bg-background/50 backdrop-blur-sm h-6 px-2"
+              >
                 T{question.type}
               </Badge>
               {question.section !== "0" && (
-                <Badge variant="secondary" className="bg-primary/10 text-primary border-none h-6 px-2 uppercase text-[10px]">
+                <Badge
+                  variant="secondary"
+                  className="bg-primary/10 text-primary border-none h-6 px-2 uppercase text-[10px]"
+                >
                   {sectionLabel.charAt(0)}
                 </Badge>
               )}
@@ -111,7 +118,9 @@ export function QuestionCard({ question, index, onDelete }: QuestionCardProps) {
                 <div className="flex flex-wrap gap-2 mb-4 md:hidden">
                   <Badge variant="outline">Question {index + 1}</Badge>
                   <Badge variant="secondary">Type {question.type}</Badge>
-                  {question.section !== "0" && <Badge variant="default">{sectionLabel}</Badge>}
+                  {question.section !== "0" && (
+                    <Badge variant="default">{sectionLabel}</Badge>
+                  )}
                 </div>
 
                 {/* Question Image */}
@@ -142,12 +151,20 @@ export function QuestionCard({ question, index, onDelete }: QuestionCardProps) {
                   className="rounded-full h-8 w-8"
                   onClick={() => setIsExpanded(!isExpanded)}
                 >
-                  {isExpanded ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+                  {isExpanded ? (
+                    <ChevronUp className="h-4 w-4" />
+                  ) : (
+                    <ChevronDown className="h-4 w-4" />
+                  )}
                 </Button>
 
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" size="icon" className="rounded-full h-8 w-8">
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="rounded-full h-8 w-8"
+                    >
                       <MoreVertical className="h-4 w-4" />
                     </Button>
                   </DropdownMenuTrigger>
@@ -157,12 +174,15 @@ export function QuestionCard({ question, index, onDelete }: QuestionCardProps) {
                     {isAdmin && (
                       <>
                         <DropdownMenuItem asChild>
-                          <Link href={`/questions/${question.$id}/edit`} className="cursor-pointer">
+                          <Link
+                            href={`/questions/${question.$id}/edit`}
+                            className="cursor-pointer"
+                          >
                             <Edit2 className="mr-2 h-4 w-4" /> Edit Question
                           </Link>
                         </DropdownMenuItem>
-                        <DropdownMenuItem 
-                          className="text-destructive focus:text-destructive" 
+                        <DropdownMenuItem
+                          className="text-destructive focus:text-destructive"
                           onClick={() => setShowDeleteDialog(true)}
                         >
                           <Trash2 className="mr-2 h-4 w-4" /> Delete Question
@@ -187,14 +207,18 @@ export function QuestionCard({ question, index, onDelete }: QuestionCardProps) {
                         : "bg-muted/20 border-border/50 hover:bg-muted/40"
                     }`}
                   >
-                    <div className={`h-6 w-6 rounded flex items-center justify-center text-xs font-bold shrink-0 mt-0.5 ${
-                      isCorrect ? "bg-emerald-500 text-white" : "bg-muted-foreground/20 text-muted-foreground"
-                    }`}>
+                    <div
+                      className={`h-6 w-6 rounded flex items-center justify-center text-xs font-bold shrink-0 mt-0.5 ${
+                        isCorrect
+                          ? "bg-emerald-500 text-white"
+                          : "bg-muted-foreground/20 text-muted-foreground"
+                      }`}
+                    >
                       {opt.label}
                     </div>
-                    <div 
+                    <div
                       className={`text-sm md:text-base ${isCorrect ? "text-emerald-900 dark:text-emerald-100 font-medium" : "text-muted-foreground"}`}
-                      dangerouslySetInnerHTML={{ __html: opt.value }} 
+                      dangerouslySetInnerHTML={{ __html: opt.value }}
                     />
                     {isCorrect && (
                       <CheckCircle2 className="absolute top-2 right-2 h-4 w-4 text-emerald-500" />
@@ -212,9 +236,9 @@ export function QuestionCard({ question, index, onDelete }: QuestionCardProps) {
                   Correct Answer: {answerLetter || question.answer || "N/A"}
                 </div>
                 {question.explanation && (
-                  <Button 
-                    variant="ghost" 
-                    size="sm" 
+                  <Button
+                    variant="ghost"
+                    size="sm"
                     onClick={() => setIsExpanded(!isExpanded)}
                     className="text-xs font-semibold text-muted-foreground hover:text-primary h-8"
                   >
@@ -257,17 +281,26 @@ export function QuestionCard({ question, index, onDelete }: QuestionCardProps) {
           <DialogHeader>
             <DialogTitle>Delete Question</DialogTitle>
             <DialogDescription>
-              Are you sure you want to delete this question? This action cannot be undone.
+              Are you sure you want to delete this question? This action cannot
+              be undone.
             </DialogDescription>
           </DialogHeader>
           <div className="bg-muted/30 p-4 rounded-lg border text-sm italic line-clamp-3 my-2">
             <div dangerouslySetInnerHTML={{ __html: question.questionText }} />
           </div>
           <DialogFooter>
-            <Button variant="ghost" onClick={() => setShowDeleteDialog(false)} disabled={isDeleting}>
+            <Button
+              variant="ghost"
+              onClick={() => setShowDeleteDialog(false)}
+              disabled={isDeleting}
+            >
               Cancel
             </Button>
-            <Button variant="destructive" onClick={handleDelete} disabled={isDeleting}>
+            <Button
+              variant="destructive"
+              onClick={handleDelete}
+              disabled={isDeleting}
+            >
               {isDeleting ? "Deleting..." : "Delete Question"}
             </Button>
           </DialogFooter>
